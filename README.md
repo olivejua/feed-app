@@ -20,26 +20,26 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
 
 
 ## 프로젝트 구조
-├── README.md
-├── src
-│   ├── main
-│   │   ├── java.com.moneelab.assignment
-│   │   │   ├── domain
-│   │   │   ├── dto
-│   │   │   ├── repository
-│   │   │   ├── util
-│   │   │   └── web
-│   │   │   │   ├── adapter
-│   │   │   │   ├── controller
-│   ├── resources
-│   └── webapp
-│   ├── test
-│   │   ├── java.com.moneelab.assignment
-│   │   └── resources
-├── build.gradle
-├── gradlew
-├── gradlew.bat
-└── .gitignore
+├── README.md </br>
+├── src </br>
+│   ├── main </br>
+│   │   ├── java.com.moneelab.assignment </br>
+│   │   │   ├── domain </br>
+│   │   │   ├── dto </br>
+│   │   │   ├── repository </br>
+│   │   │   ├── util </br>
+│   │   │   └── web </br>
+│   │   │   │   ├── adapter </br>
+│   │   │   │   ├── controller </br>
+│   ├── resources </br>
+│   └── webapp </br>
+│   ├── test </br>
+│   │   ├── java.com.moneelab.assignment </br>
+│   │   └── resources </br>
+├── build.gradle </br>
+├── gradlew </br>
+├── gradlew.bat </br>
+└── .gitignore </br>
 
 ## 프로젝트 흐름
 
