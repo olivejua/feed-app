@@ -22,6 +22,9 @@ public class PostResponse {
 
     }
 
+    /**
+     * Getter
+     */
     public Long getPostId() {
         return postId;
     }

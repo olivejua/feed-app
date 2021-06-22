@@ -8,14 +8,24 @@ import com.moneelab.assignment.dto.post.PostResponse;
 
 public class PostServiceImpl implements PostService {
 
+    /**
+     * invoking a repository instance
+     */
     private PostRepository postRepository = PostRepositoryImpl.getInstance();
 
+    /**
+     * making it Singleton
+     */
+    private PostServiceImpl() {}
     private static final PostServiceImpl instance = new PostServiceImpl();
 
     public static PostServiceImpl getInstance( ) {
         return instance;
     }
 
+    /**
+     * processing business logic
+     */
     @Override
     public PostResponse save(PostRequest postRequest, Long authorId) {
         Post post =  postRepository.save(postRequest.toPost(authorId));

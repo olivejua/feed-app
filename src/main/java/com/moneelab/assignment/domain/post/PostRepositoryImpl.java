@@ -9,19 +9,23 @@ public class PostRepositoryImpl implements PostRepository {
     private static ConcurrentHashMap<Long, Post> store = new ConcurrentHashMap<>();
     private static long sequence = 0L;
 
+    /**
+     * making it Singleton
+     */
+    private PostRepositoryImpl() {}
     private static final PostRepositoryImpl instance = new PostRepositoryImpl();
 
     public static PostRepositoryImpl getInstance() {
         return instance;
     }
 
-    private PostRepositoryImpl() {}
 
+    /**
+     * manipulating domain object
+     */
     public Post save(Post post) {
         post.initId(++sequence);
-        store.put(post.getId(), post);
-
-        return post;
+        return store.put(post.getId(), post);
     }
 
     public void update(Post post) {
