@@ -13,6 +13,7 @@ public class PostControllerImpl implements PostController {
 
     private PostService postService = PostServiceImpl.getInstance();
 
+    private PostControllerImpl() {}
     private static final PostControllerImpl instance = new PostControllerImpl();
 
     public static PostControllerImpl getInstance() {

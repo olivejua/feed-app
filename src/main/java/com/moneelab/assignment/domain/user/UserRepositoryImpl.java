@@ -11,6 +11,8 @@ public class UserRepositoryImpl implements UserRepository {
     /**
      * making Singleton
      */
+
+    private UserRepositoryImpl() {}
     private static final UserRepositoryImpl instance = new UserRepositoryImpl();
 
     public static UserRepositoryImpl getInstance() {

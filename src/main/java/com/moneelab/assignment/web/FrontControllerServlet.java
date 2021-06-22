@@ -34,10 +34,10 @@ public class FrontControllerServlet extends HttpServlet {
     }
 
     private void initHandlerMappingMap() {
-        handlerMappingMap.put(USER_SIGN_UP, new UserControllerImpl());
-        handlerMappingMap.put(USER_SIGN_IN, new UserControllerImpl());
+        handlerMappingMap.put(USER_SIGN_UP, UserControllerImpl.getInstance());
+        handlerMappingMap.put(USER_SIGN_IN, UserControllerImpl.getInstance());
 
-        handlerMappingMap.put(COMMON_POST, new PostControllerImpl());
+        handlerMappingMap.put(COMMON_POST, PostControllerImpl.getInstance());
         handlerMappingMap.put(COMMON_COMMENT, new CommentControllerImpl());
         handlerMappingMap.put(COMMON_LIKE, new LikeControllerImpl());
     }
