@@ -1,6 +1,7 @@
 package com.moneelab.assignment.web.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.util.HttpMethods;
 import com.moneelab.assignment.web.HandlerAdapter;
@@ -36,7 +37,7 @@ public class PostControllerHandlerAdapter implements HandlerAdapter {
         Map<String, String> paramMap = createParamMap(request);
         String requestBody = inputStreamToString(request.getInputStream());
 
-        String result = "";
+        ResponseEntity result;
         switch (request.getMethod()) {
             case HttpMethods.POST:
                 result = controller.save(objectMapper.readValue(requestBody, PostRequest.class));
@@ -55,9 +56,9 @@ public class PostControllerHandlerAdapter implements HandlerAdapter {
                 throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
         }
 
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("utf-8");
-        response.getWriter().write(result);
+        response.setContentType(result.getContentType());
+        response.setCharacterEncoding(result.getCharset());
+        response.getWriter().write(objectMapper.writeValueAsString(result.getBody()));
     }
 
     private Map<String, String> createParamMap(HttpServletRequest request) {
