@@ -1,25 +1,45 @@
 package com.moneelab.assignment.web.controller.post;
 
+import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.post.PostRequest;
+import com.moneelab.assignment.dto.post.PostResponse;
+import com.moneelab.assignment.service.post.PostService;
+import com.moneelab.assignment.service.post.PostServiceImpl;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public class PostControllerImpl implements PostController {
 
-    @Override
-    public String save(PostRequest postRequest) {
-        return "result save";
+    private PostService postService = PostServiceImpl.getInstance();
+
+    private static final PostControllerImpl instance = new PostControllerImpl();
+
+    public static PostControllerImpl getInstance() {
+        return instance;
     }
 
     @Override
-    public String update(Map<String, String> paramMap, PostRequest postRequest) {
-        String postId = paramMap.get("postId");
-
-        return "result update: postId: " + postId + ", requestBody: " + postRequest;
+    public ResponseEntity save(PostRequest postRequest) {
+        PostResponse postResponse = postService.save(postRequest, 0L);
+        return new ResponseEntity(HttpServletResponse.SC_CREATED, postResponse.getPostId());
     }
 
     @Override
-    public String delete(Map<String, String> paramMap) {
-        return "result delete";
+    public ResponseEntity update(Map<String, String> paramMap, PostRequest postRequest) {
+        Long postId = Long.parseLong(paramMap.get("postId"));
+
+        postService.update(postId, postRequest);
+
+        return new ResponseEntity(HttpServletResponse.SC_NO_CONTENT);
+    }
+
+    @Override
+    public ResponseEntity delete(Map<String, String> paramMap) {
+        Long postId = Long.parseLong(paramMap.get("postId"));
+
+        postService.delete(postId);
+
+        return new ResponseEntity(HttpServletResponse.SC_NO_CONTENT);
     }
 }
