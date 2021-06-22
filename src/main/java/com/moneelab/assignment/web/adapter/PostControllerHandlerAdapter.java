@@ -52,7 +52,7 @@ public class PostControllerHandlerAdapter implements HandlerAdapter {
 
                 break;
             default:
-                throw new IllegalArgumentException("존재하지 않는 경로입니다.");
+                throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
         }
 
         response.setContentType("text/plain");
