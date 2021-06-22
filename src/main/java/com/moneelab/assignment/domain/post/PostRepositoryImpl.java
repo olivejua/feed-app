@@ -25,7 +25,9 @@ public class PostRepositoryImpl implements PostRepository {
      */
     public Post save(Post post) {
         post.initId(++sequence);
-        return store.put(post.getId(), post);
+        store.put(post.getId(), post);
+
+        return post;
     }
 
     public void update(Post post) {

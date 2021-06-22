@@ -9,7 +9,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static long sequence = 0L;
 
     /**
-     * making Singleton
+     * making it Singleton
      */
 
     private UserRepositoryImpl() {}
@@ -25,7 +25,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         user.initId(++sequence);
-        return store.put(user.getId(), user);
+        store.put(user.getId(), user);
+
+        return user;
     }
 
     @Override
