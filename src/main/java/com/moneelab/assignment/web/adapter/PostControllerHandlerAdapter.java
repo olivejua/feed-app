@@ -1,6 +1,7 @@
 package com.moneelab.assignment.web.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.util.HttpMethods;
 import com.moneelab.assignment.web.HandlerAdapter;
 import com.moneelab.assignment.web.controller.post.PostController;
@@ -12,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+//TODO requestBody 객체 유효성 검사 (instanceof)
+//TODO PathVariable 타입 검사
 public class PostControllerHandlerAdapter implements HandlerAdapter {
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -38,18 +39,20 @@ public class PostControllerHandlerAdapter implements HandlerAdapter {
         String result = "";
         switch (request.getMethod()) {
             case HttpMethods.POST:
-                result = controller.save(paramMap);
+                result = controller.save(objectMapper.readValue(requestBody, PostRequest.class));
+
                 break;
             case HttpMethods.PUT:
-                result = controller.update(paramMap, requestBody);
+                PostRequest postRequest = objectMapper.readValue(requestBody, PostRequest.class);
+                result = controller.update(paramMap, postRequest);
+
                 break;
             case HttpMethods.DELETE:
                 result = controller.delete(paramMap);
-                break;
-        }
 
-        if (result.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 경로입니다.");
+                break;
+            default:
+                throw new IllegalArgumentException("존재하지 않는 경로입니다.");
         }
 
         response.setContentType("text/plain");
