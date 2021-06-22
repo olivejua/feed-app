@@ -14,11 +14,12 @@ ext {
     junitVersion = '5.7.0'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 dependencies {
     compileOnly('javax:javaee-web-api:8.0.1')
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.12.1')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
