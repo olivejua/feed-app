@@ -6,6 +6,9 @@ public class PostRequest {
     private String title;
     private String content;
 
+    /**
+     * Getter & Setter
+     */
     public String getTitle() {
         return title;
     }
@@ -22,6 +25,9 @@ public class PostRequest {
         this.content = content;
     }
 
+    /**
+     * changing PostRequest To Post
+     */
     public Post toPost(Long authorId) {
         return Post.createPost(
                 authorId, title, content);

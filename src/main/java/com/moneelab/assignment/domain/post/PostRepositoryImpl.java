@@ -6,6 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PostRepositoryImpl implements PostRepository {
 
+    /**
+     * store: In-memory DB for Post
+     * sequence: To manage auto increment id values
+     */
     private static ConcurrentHashMap<Long, Post> store = new ConcurrentHashMap<>();
     private static long sequence = 0L;
 
