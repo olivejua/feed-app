@@ -1,6 +1,6 @@
 package com.moneelab.assignment.dto.post;
 
-import com.moneelab.assignment.domain.Comment;
+import com.moneelab.assignment.domain.comment.Comment;
 import com.moneelab.assignment.domain.post.Post;
 
 import java.util.List;
