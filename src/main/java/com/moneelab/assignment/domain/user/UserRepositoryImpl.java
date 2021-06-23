@@ -5,13 +5,16 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class UserRepositoryImpl implements UserRepository {
 
+    /**
+     * store: In-memory DB for User
+     * sequence: To manage auto increment id values
+     */
     private static ConcurrentHashMap<Long, User> store = new ConcurrentHashMap<>();
     private static long sequence = 0L;
 
     /**
      * making it Singleton
      */
-
     private UserRepositoryImpl() {}
     private static final UserRepositoryImpl instance = new UserRepositoryImpl();
 
@@ -34,7 +37,8 @@ public class UserRepositoryImpl implements UserRepository {
     public User findById(Long userId) {
         return store.get(userId);
     }
-
+    
+    //TODO result 타입 해결하기
     @Override
     public User findByName(String username) {
         AtomicReference<User> result = null;
