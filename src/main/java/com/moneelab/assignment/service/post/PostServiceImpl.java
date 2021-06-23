@@ -31,8 +31,7 @@ public class PostServiceImpl implements PostService {
      */
     @Override
     public Long save(PostRequest postRequest, Long authorId) {
-        Long postId =  postRepository.save(postRequest.toPost(authorId));
-        return postId;
+        return postRepository.save(postRequest.toPost(authorId));
     }
 
     @Override

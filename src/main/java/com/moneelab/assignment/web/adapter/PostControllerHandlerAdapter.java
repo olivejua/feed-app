@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+//TODO HandlerAdapter 중복되는 부분 합치기 (User, Post, Comment, Like)
 //TODO requestBody 객체 유효성 검사 (instanceof)
 //TODO PathVariable 타입 검사
 public class PostControllerHandlerAdapter implements HandlerAdapter {
