@@ -38,7 +38,7 @@ public class FrontControllerServlet extends HttpServlet {
         handlerMappingMap.put(USER_SIGN_IN, UserControllerImpl.getInstance());
 
         handlerMappingMap.put(COMMON_POST, PostControllerImpl.getInstance());
-        handlerMappingMap.put(COMMON_COMMENT, new CommentControllerImpl());
+        handlerMappingMap.put(COMMON_COMMENT, CommentControllerImpl.getInstance());
         handlerMappingMap.put(COMMON_LIKE, new LikeControllerImpl());
     }
 
