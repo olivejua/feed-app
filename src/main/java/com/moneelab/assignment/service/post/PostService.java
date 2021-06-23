@@ -4,7 +4,7 @@ import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 
 public interface PostService {
-    PostResponse save(PostRequest postRequest, Long authorId);
+    Long save(PostRequest postRequest, Long authorId);
 
     void update(Long postId, PostRequest postRequest);
 

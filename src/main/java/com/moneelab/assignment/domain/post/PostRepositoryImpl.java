@@ -23,15 +23,16 @@ public class PostRepositoryImpl implements PostRepository {
     /**
      * manipulating domain object
      */
-    public Post save(Post post) {
+    public Long save(Post post) {
         post.initId(++sequence);
         store.put(post.getId(), post);
 
-        return post;
+        return post.getId();
     }
 
-    public void update(Post post) {
-        post.update(post.getTitle(), post.getContent());
+    public void update(Long postId, String updatedTitle, String updatedContent) {
+        Post post = store.get(postId);
+        post.update(updatedTitle, updatedContent);
     }
 
     public void deleteById(Long postId) {

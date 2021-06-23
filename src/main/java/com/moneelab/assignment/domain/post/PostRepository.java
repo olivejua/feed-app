@@ -3,8 +3,8 @@ package com.moneelab.assignment.domain.post;
 import java.util.List;
 
 public interface PostRepository {
-    Post save(Post post);
-    void update(Post post);
+    Long save(Post post);
+    void update(Long postId, String title, String content);
     void deleteById(Long postId);
     Post findById(Long postId);
     List<Post> findAll();

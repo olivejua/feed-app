@@ -27,23 +27,25 @@ public class PostServiceImpl implements PostService {
      * processing business logic
      */
     @Override
-    public PostResponse save(PostRequest postRequest, Long authorId) {
-        Post post =  postRepository.save(postRequest.toPost(authorId));
-        return new PostResponse(post);
+    public Long save(PostRequest postRequest, Long authorId) {
+        Long postId =  postRepository.save(postRequest.toPost(authorId));
+        return postId;
     }
 
     @Override
     public void update(Long postId, PostRequest postRequest) {
-
+        postRepository.update(
+                postId, postRequest.getTitle(), postRequest.getContent());
     }
 
     @Override
     public void delete(Long postId) {
-
+        postRepository.deleteById(postId);
     }
 
     @Override
     public PostResponse findById(Long postId) {
-        return null;
+        Post findPost = postRepository.findById(postId);
+        return new PostResponse(findPost);
     }
 }
