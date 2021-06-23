@@ -1,17 +1,20 @@
 package com.moneelab.assignment.service.post;
 
+import com.moneelab.assignment.config.AppConfig;
 import com.moneelab.assignment.domain.post.Post;
 import com.moneelab.assignment.domain.post.PostRepository;
 import com.moneelab.assignment.domain.post.PostRepositoryImpl;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 
+import static com.moneelab.assignment.config.AppConfig.*;
+
 public class PostServiceImpl implements PostService {
 
     /**
      * invoking a repository instance
      */
-    private PostRepository postRepository = PostRepositoryImpl.getInstance();
+    private PostRepository postRepository = postRepository();
 
     /**
      * making it Singleton

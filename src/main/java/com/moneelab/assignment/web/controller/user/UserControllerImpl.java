@@ -4,13 +4,14 @@ import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
 import com.moneelab.assignment.service.user.UserService;
-import com.moneelab.assignment.service.user.UserServiceImpl;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static com.moneelab.assignment.config.AppConfig.userService;
+
 public class UserControllerImpl implements UserController {
 
-    private UserService userService = UserServiceImpl.getInstance();
+    private UserService userService = userService();
 
     private UserControllerImpl() {}
     private static final UserControllerImpl instance = new UserControllerImpl();

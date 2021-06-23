@@ -4,10 +4,7 @@ import com.moneelab.assignment.web.adapter.CommentControllerHandlerAdapter;
 import com.moneelab.assignment.web.adapter.LikeControllerHandlerAdapter;
 import com.moneelab.assignment.web.adapter.PostControllerHandlerAdapter;
 import com.moneelab.assignment.web.adapter.UserControllerHandlerAdapter;
-import com.moneelab.assignment.web.controller.comment.CommentControllerImpl;
 import com.moneelab.assignment.web.controller.like.LikeControllerImpl;
-import com.moneelab.assignment.web.controller.post.PostControllerImpl;
-import com.moneelab.assignment.web.controller.user.UserControllerImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.moneelab.assignment.config.AppConfig.*;
 import static com.moneelab.assignment.util.PathConstants.*;
 
 @WebServlet(name = "frontControllerServlet", urlPatterns = COMMON_ALL+"/*")
@@ -34,11 +32,11 @@ public class FrontControllerServlet extends HttpServlet {
     }
 
     private void initHandlerMappingMap() {
-        handlerMappingMap.put(USER_SIGN_UP, UserControllerImpl.getInstance());
-        handlerMappingMap.put(USER_SIGN_IN, UserControllerImpl.getInstance());
+        handlerMappingMap.put(USER_SIGN_UP, userController());
+        handlerMappingMap.put(USER_SIGN_IN, userController());
 
-        handlerMappingMap.put(COMMON_POST, PostControllerImpl.getInstance());
-        handlerMappingMap.put(COMMON_COMMENT, CommentControllerImpl.getInstance());
+        handlerMappingMap.put(COMMON_POST, postController());
+        handlerMappingMap.put(COMMON_COMMENT, commentController());
         handlerMappingMap.put(COMMON_LIKE, new LikeControllerImpl());
     }
 

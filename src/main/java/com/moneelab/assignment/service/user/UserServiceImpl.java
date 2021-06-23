@@ -1,17 +1,20 @@
 package com.moneelab.assignment.service.user;
 
+import com.moneelab.assignment.config.AppConfig;
 import com.moneelab.assignment.domain.user.User;
 import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.domain.user.UserRepositoryImpl;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
 
+import static com.moneelab.assignment.config.AppConfig.*;
+
 public class UserServiceImpl implements UserService {
 
     /**
      * invoking a repository instance
      */
-    private UserRepository userRepository = UserRepositoryImpl.getInstance();
+    private UserRepository userRepository = userRepository();
 
     /**
      * making it Singleton

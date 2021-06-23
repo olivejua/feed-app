@@ -2,19 +2,20 @@ package com.moneelab.assignment.service.comment;
 
 import com.moneelab.assignment.domain.comment.Comment;
 import com.moneelab.assignment.domain.comment.CommentRepository;
-import com.moneelab.assignment.domain.comment.CommentRepositoryImpl;
 import com.moneelab.assignment.dto.comment.CommentRequest;
 import com.moneelab.assignment.dto.comment.CommentResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.moneelab.assignment.config.AppConfig.commentRepository;
+
 public class CommentServiceImpl implements CommentService {
 
     /**
      * invoking a repository instance
      */
-    private CommentRepository commentRepository = CommentRepositoryImpl.getInstance();
+    private CommentRepository commentRepository = commentRepository();
 
     /**
      * making it Singleton
