@@ -1,9 +1,11 @@
 package com.moneelab.assignment.web.controller.like;
 
+import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.web.controller.Controller;
 
-public interface LikeController extends Controller {
+import java.util.Map;
 
-    String doLike();
-    String cancelLike();
+public interface LikeController extends Controller {
+    ResponseEntity doLike(Map<String, String> paramMap);
+    ResponseEntity cancelLike(Map<String, String> paramMap);
 }

@@ -2,18 +2,24 @@ package com.moneelab.assignment.config;
 
 import com.moneelab.assignment.domain.comment.CommentRepository;
 import com.moneelab.assignment.domain.comment.CommentRepositoryImpl;
+import com.moneelab.assignment.domain.like.LikeRepository;
+import com.moneelab.assignment.domain.like.LikeRepositoryImpl;
 import com.moneelab.assignment.domain.post.PostRepository;
 import com.moneelab.assignment.domain.post.PostRepositoryImpl;
 import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.domain.user.UserRepositoryImpl;
 import com.moneelab.assignment.service.comment.CommentService;
 import com.moneelab.assignment.service.comment.CommentServiceImpl;
+import com.moneelab.assignment.service.like.LikeService;
+import com.moneelab.assignment.service.like.LikeServiceImpl;
 import com.moneelab.assignment.service.post.PostService;
 import com.moneelab.assignment.service.post.PostServiceImpl;
 import com.moneelab.assignment.service.user.UserService;
 import com.moneelab.assignment.service.user.UserServiceImpl;
 import com.moneelab.assignment.web.controller.comment.CommentController;
 import com.moneelab.assignment.web.controller.comment.CommentControllerImpl;
+import com.moneelab.assignment.web.controller.like.LikeController;
+import com.moneelab.assignment.web.controller.like.LikeControllerImpl;
 import com.moneelab.assignment.web.controller.post.PostController;
 import com.moneelab.assignment.web.controller.post.PostControllerImpl;
 import com.moneelab.assignment.web.controller.user.UserController;
@@ -64,5 +70,20 @@ public class AppConfig {
 
     public static CommentRepository commentRepository() {
         return CommentRepositoryImpl.getInstance();
+    }
+
+    /**
+     * Like
+     */
+    public static LikeController likeController() {
+        return LikeControllerImpl.getInstance();
+    }
+
+    public static LikeService likeService() {
+        return LikeServiceImpl.getInstance();
+    }
+
+    public static LikeRepository likeRepository() {
+        return LikeRepositoryImpl.getInstance();
     }
 }
