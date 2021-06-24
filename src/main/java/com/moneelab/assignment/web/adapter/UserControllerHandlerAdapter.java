@@ -1,5 +1,6 @@
 package com.moneelab.assignment.web.adapter;
 
+import com.moneelab.assignment.config.session.SessionUserService;
 import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.web.HandlerAdapter;
@@ -32,7 +33,8 @@ public class UserControllerHandlerAdapter extends HandlerAdapter {
                 result = controller.signUp(objectMapper.readValue(requestBody, UserRequest.class));
                 break;
             case USER_SIGN_IN:
-                result = controller.signIn(objectMapper.readValue(requestBody, UserRequest.class), request.getSession());
+                SessionUserService sessionService = new SessionUserService(request.getSession());
+                result = controller.signIn(objectMapper.readValue(requestBody, UserRequest.class), sessionService);
                 break;
             default:
                 throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());

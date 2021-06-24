@@ -1,5 +1,6 @@
 package com.moneelab.assignment.service.user;
 
+import com.moneelab.assignment.config.session.SessionUserService;
 import com.moneelab.assignment.domain.user.User;
 import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.dto.user.UserRequest;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public synchronized UserResponse signIn(UserRequest userRequest, HttpSession session) {
+    public synchronized UserResponse signIn(UserRequest userRequest, SessionUserService sessionService) {
         //세션에 저장
         User user = userRepository.findByName(userRequest.getName())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이름입니다."));
@@ -46,13 +47,13 @@ public class UserServiceImpl implements UserService {
         }
 
         UserResponse userResponse = new UserResponse(user);
-        session.setAttribute("currentUser", userResponse);
+        sessionService.saveUser(userResponse);
 
         return userResponse;
     }
 
     @Override
-    public void logout(HttpSession session) {
-        session.removeAttribute("currentUser");
+    public void logout(SessionUserService sessionService) {
+        sessionService.removeUser();
     }
 }
