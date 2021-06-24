@@ -4,8 +4,11 @@ import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.web.controller.Controller;
 
+import javax.servlet.http.HttpSession;
+
 public interface UserController extends Controller {
 
-    ResponseEntity signIn(UserRequest userRequest);
+    ResponseEntity signIn(UserRequest userRequest, HttpSession session);
     ResponseEntity signUp(UserRequest userRequest);
+    ResponseEntity logout(HttpSession session);
 }

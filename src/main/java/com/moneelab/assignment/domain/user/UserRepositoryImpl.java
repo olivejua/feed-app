@@ -1,7 +1,7 @@
 package com.moneelab.assignment.domain.user;
 
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class UserRepositoryImpl implements UserRepository {
 
@@ -38,18 +38,10 @@ public class UserRepositoryImpl implements UserRepository {
         return store.get(userId);
     }
     
-    //TODO result 타입 해결하기
     @Override
-    public User findByName(String username) {
-        AtomicReference<User> result = null;
-
-        store.values().iterator()
-                .forEachRemaining(user -> {
-                    if (user.getName().equals(username)) {
-                        result.set(user);
-                    }
-                });
-
-        return result.get();
+    public Optional<User> findByName(String username) {
+        return store.values().stream()
+                .filter(user -> user.getName().equals(username))
+                .findAny();
     }
 }

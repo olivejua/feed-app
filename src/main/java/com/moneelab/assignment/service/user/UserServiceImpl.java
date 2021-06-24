@@ -1,13 +1,13 @@
 package com.moneelab.assignment.service.user;
 
-import com.moneelab.assignment.config.AppConfig;
 import com.moneelab.assignment.domain.user.User;
 import com.moneelab.assignment.domain.user.UserRepository;
-import com.moneelab.assignment.domain.user.UserRepositoryImpl;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
 
-import static com.moneelab.assignment.config.AppConfig.*;
+import javax.servlet.http.HttpSession;
+
+import static com.moneelab.assignment.config.AppConfig.userRepository;
 
 public class UserServiceImpl implements UserService {
 
@@ -30,14 +30,29 @@ public class UserServiceImpl implements UserService {
      * processing business logic
      */
     @Override
-    public UserResponse signUp(UserRequest userRequest) {
+    public synchronized UserResponse signUp(UserRequest userRequest) {
         User user = userRepository.save(userRequest.toUser());
         return new UserResponse(user);
     }
 
     @Override
-    public UserResponse signIn(UserRequest userRequest) {
+    public synchronized UserResponse signIn(UserRequest userRequest, HttpSession session) {
         //세션에 저장
-        return null;
+        User user = userRepository.findByName(userRequest.getName())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이름입니다."));
+
+        if (!userRequest.getPassword().equals(user.getPassword())) {
+            // 비밀번호가 일치하지 않습니다.
+        }
+
+        UserResponse userResponse = new UserResponse(user);
+        session.setAttribute("currentUser", userResponse);
+
+        return userResponse;
+    }
+
+    @Override
+    public void logout(HttpSession session) {
+        session.removeAttribute("currentUser");
     }
 }
