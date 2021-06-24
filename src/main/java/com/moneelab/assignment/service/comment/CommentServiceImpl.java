@@ -46,6 +46,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public synchronized CommentResponse findById(Long commentId) {
+        return new CommentResponse(commentRepository.findById(commentId));
+    }
+
+    @Override
     public synchronized List<CommentResponse> findCommentsByPostId(Long postId) {
         List<Comment> comments = commentRepository.findCommentsByPostId(postId);
 

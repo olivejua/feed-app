@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public synchronized UserResponse signIn(UserRequest userRequest, SessionUserService sessionService) {
+    public synchronized UserResponse signIn(UserRequest userRequest) {
         //세션에 저장
         User user = userRepository.findByName(userRequest.getName())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이름입니다."));
@@ -46,14 +46,6 @@ public class UserServiceImpl implements UserService {
             // 비밀번호가 일치하지 않습니다.
         }
 
-        UserResponse userResponse = new UserResponse(user);
-        sessionService.saveUser(userResponse);
-
-        return userResponse;
-    }
-
-    @Override
-    public void logout(SessionUserService sessionService) {
-        sessionService.removeUser();
+        return new UserResponse(user);
     }
 }

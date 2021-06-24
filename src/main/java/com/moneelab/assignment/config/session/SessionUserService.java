@@ -21,6 +21,14 @@ public class SessionUserService {
         session.removeAttribute(currentUser);
     }
 
+    public UserResponse getUser() {
+        if (!existUserInSession()) {
+            //TODO 로그인하지 않았습니다. 로그인창으로 보냄
+        }
+        
+        return (UserResponse) session.getAttribute(currentUser);
+    }
+
     public boolean existUserInSession() {
         return session != null && session.getAttribute(currentUser) != null;
     }

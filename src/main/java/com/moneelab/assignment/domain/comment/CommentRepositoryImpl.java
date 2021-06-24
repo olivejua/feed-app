@@ -46,6 +46,11 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
+    public Comment findById(Long commentId) {
+        return store.get(commentId);
+    }
+
+    @Override
     public List<Comment> findCommentsByPostId(Long postId) {
         return store.values().stream()
                 .filter(comment -> comment.getPostId().equals(postId))

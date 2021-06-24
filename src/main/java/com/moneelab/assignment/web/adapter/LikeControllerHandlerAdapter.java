@@ -1,5 +1,6 @@
 package com.moneelab.assignment.web.adapter;
 
+import com.moneelab.assignment.config.session.SessionUserService;
 import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.util.HttpMethods;
 import com.moneelab.assignment.web.HandlerAdapter;
@@ -8,6 +9,7 @@ import com.moneelab.assignment.web.controller.like.LikeController;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
@@ -26,13 +28,14 @@ public class LikeControllerHandlerAdapter extends HandlerAdapter {
         Map<String, String> paramMap = createParamMap(request);
 
         ResponseEntity result;
+        HttpSession session = request.getSession(false);
         switch (request.getMethod()) {
             case HttpMethods.POST:
-                result = controller.doLike(paramMap);
+                result = controller.doLike(paramMap, new SessionUserService(session));
 
                 break;
             case HttpMethods.DELETE:
-                result = controller.cancelLike(paramMap);
+                result = controller.cancelLike(paramMap, new SessionUserService(session));
 
                 break;
             default:

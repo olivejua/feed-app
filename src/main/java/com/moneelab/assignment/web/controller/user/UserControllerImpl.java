@@ -7,7 +7,6 @@ import com.moneelab.assignment.dto.user.UserResponse;
 import com.moneelab.assignment.service.user.UserService;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import static com.moneelab.assignment.config.AppConfig.userService;
 
@@ -28,12 +27,13 @@ public class UserControllerImpl implements UserController {
     }
 
     public ResponseEntity signIn(UserRequest userRequest, SessionUserService sessionService) {
-        UserResponse userResponse = userService.signIn(userRequest, sessionService);
+        UserResponse userResponse = userService.signIn(userRequest);
+        sessionService.saveUser(userResponse);
         return new ResponseEntity(HttpServletResponse.SC_OK, userResponse);
     }
 
     public ResponseEntity logout(SessionUserService sessionService) {
-        userService.logout(sessionService);
+        sessionService.removeUser();
         return new ResponseEntity(HttpServletResponse.SC_NO_CONTENT);
     }
 }

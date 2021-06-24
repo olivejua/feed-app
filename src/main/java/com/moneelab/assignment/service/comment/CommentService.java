@@ -9,5 +9,6 @@ public interface CommentService {
     Long save(CommentRequest commentRequest, Long authorId);
     void update(Long commentId, CommentRequest commentRequest);
     void delete(Long commentId);
+    CommentResponse findById(Long commentId);
     List<CommentResponse> findCommentsByPostId(Long postId);
 }

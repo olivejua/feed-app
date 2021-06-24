@@ -8,4 +8,5 @@ public interface LikeRepository {
     void delete(Long postId, Long userId);
     Optional<Like> findLike(Long postId, Long userId);
     List<Like> findLikesByPostId(Long postId);
+    Optional<Like> findLikeByPostId(Long postId);
 }
