@@ -47,7 +47,7 @@ public class LikeRepositoryImpl implements LikeRepository {
                 .filter(like ->
                         like.getPostId().equals(postId) &&
                                 like.getUserId().equals(userId))
-                .findFirst();
+                .findAny();
     }
 
     @Override

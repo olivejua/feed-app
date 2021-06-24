@@ -8,6 +8,7 @@ public abstract class PathConstants {
     public static final String USER = COMMON_ALL + "/user";
     public static final String USER_SIGN_UP = USER + "/signup";
     public static final String USER_SIGN_IN = USER + "/signin";
+    public static final String USER_LOGOUT = USER + "/logout";
 
     //Feed Path
     public static final String FEED = COMMON_ALL  + "/feed";
