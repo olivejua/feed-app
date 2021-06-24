@@ -26,13 +26,13 @@ public class LikeServiceImpl implements LikeService {
      * processing business logic
      */
     @Override
-    public Long doLike(Long postId, Long userId) {
+    public synchronized Long doLike(Long postId, Long userId) {
         Like like = Like.createLike(postId, userId);
         return likeRepository.save(like);
     }
 
     @Override
-    public void cancelLike(Long postId, Long userId) {
+    public synchronized void cancelLike(Long postId, Long userId) {
         likeRepository.delete(postId, userId);
     }
 }

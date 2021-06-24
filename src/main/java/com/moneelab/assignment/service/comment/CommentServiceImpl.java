@@ -31,22 +31,22 @@ public class CommentServiceImpl implements CommentService {
      * processing business logic
      */
     @Override
-    public Long save(CommentRequest commentRequest, Long authorId) {
+    public synchronized Long save(CommentRequest commentRequest, Long authorId) {
         return commentRepository.save(commentRequest.toComment(authorId));
     }
 
     @Override
-    public void update(Long commentId, CommentRequest commentRequest) {
+    public synchronized void update(Long commentId, CommentRequest commentRequest) {
         commentRepository.update(commentId, commentRequest.getContent());
     }
 
     @Override
-    public void delete(Long commentId) {
+    public synchronized void delete(Long commentId) {
         commentRepository.deleteById(commentId);
     }
 
     @Override
-    public List<CommentResponse> findCommentsByPostId(Long postId) {
+    public synchronized List<CommentResponse> findCommentsByPostId(Long postId) {
         List<Comment> comments = commentRepository.findCommentsByPostId(postId);
 
         return comments.stream()

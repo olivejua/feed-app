@@ -1,13 +1,11 @@
 package com.moneelab.assignment.service.post;
 
-import com.moneelab.assignment.config.AppConfig;
 import com.moneelab.assignment.domain.post.Post;
 import com.moneelab.assignment.domain.post.PostRepository;
-import com.moneelab.assignment.domain.post.PostRepositoryImpl;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 
-import static com.moneelab.assignment.config.AppConfig.*;
+import static com.moneelab.assignment.config.AppConfig.postRepository;
 
 public class PostServiceImpl implements PostService {
 
@@ -30,23 +28,23 @@ public class PostServiceImpl implements PostService {
      * processing business logic
      */
     @Override
-    public Long save(PostRequest postRequest, Long authorId) {
+    public synchronized Long save(PostRequest postRequest, Long authorId) {
         return postRepository.save(postRequest.toPost(authorId));
     }
 
     @Override
-    public void update(Long postId, PostRequest postRequest) {
+    public synchronized void update(Long postId, PostRequest postRequest) {
         postRepository.update(
                 postId, postRequest.getTitle(), postRequest.getContent());
     }
 
     @Override
-    public void delete(Long postId) {
+    public synchronized void delete(Long postId) {
         postRepository.deleteById(postId);
     }
 
     @Override
-    public PostResponse findById(Long postId) {
+    public synchronized PostResponse findById(Long postId) {
         Post findPost = postRepository.findById(postId);
         return new PostResponse(findPost);
     }
