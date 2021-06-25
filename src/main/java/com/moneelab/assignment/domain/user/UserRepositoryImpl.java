@@ -1,7 +1,9 @@
 package com.moneelab.assignment.domain.user;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class UserRepositoryImpl implements UserRepository {
 
@@ -43,5 +45,12 @@ public class UserRepositoryImpl implements UserRepository {
         return store.values().stream()
                 .filter(user -> user.getName().equals(username))
                 .findAny();
+    }
+
+    @Override
+    public List<String> getAllUsernames() {
+        return store.values().stream()
+                .map(User::getName)
+                .collect(Collectors.toList());
     }
 }

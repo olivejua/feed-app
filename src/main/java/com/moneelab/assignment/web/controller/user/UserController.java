@@ -12,4 +12,5 @@ public interface UserController extends Controller {
     ResponseEntity signIn(UserRequest userRequest, SessionUserService sessionService);
     ResponseEntity signUp(UserRequest userRequest);
     ResponseEntity logout(SessionUserService sessionService);
+    ResponseEntity getAllUsernames();
 }

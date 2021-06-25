@@ -1,9 +1,6 @@
 package com.moneelab.assignment.web;
 
-import com.moneelab.assignment.web.adapter.CommentControllerHandlerAdapter;
-import com.moneelab.assignment.web.adapter.LikeControllerHandlerAdapter;
-import com.moneelab.assignment.web.adapter.PostControllerHandlerAdapter;
-import com.moneelab.assignment.web.adapter.UserControllerHandlerAdapter;
+import com.moneelab.assignment.web.adapter.*;
 import com.moneelab.assignment.web.controller.like.LikeControllerImpl;
 
 import javax.servlet.ServletException;
@@ -32,8 +29,11 @@ public class FrontControllerServlet extends HttpServlet {
     }
 
     private void initHandlerMappingMap() {
+        handlerMappingMap.put(ALL_USERNAMES, userController());
         handlerMappingMap.put(USER_SIGN_UP, userController());
         handlerMappingMap.put(USER_SIGN_IN, userController());
+
+        handlerMappingMap.put(FEED, feedController());
 
         handlerMappingMap.put(COMMON_POST, postController());
         handlerMappingMap.put(COMMON_COMMENT, commentController());
@@ -42,6 +42,7 @@ public class FrontControllerServlet extends HttpServlet {
 
     private void initHandlerAdapters() {
         handlerAdapters.add(new UserControllerHandlerAdapter());
+        handlerAdapters.add(new FeedControllerHandlerAdapter());
         handlerAdapters.add(new PostControllerHandlerAdapter());
         handlerAdapters.add(new CommentControllerHandlerAdapter());
         handlerAdapters.add(new LikeControllerHandlerAdapter());

@@ -8,6 +8,8 @@ import com.moneelab.assignment.dto.user.UserResponse;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
+
 import static com.moneelab.assignment.config.AppConfig.userRepository;
 
 public class UserServiceImpl implements UserService {
@@ -47,5 +49,10 @@ public class UserServiceImpl implements UserService {
         }
 
         return new UserResponse(user);
+    }
+
+    @Override
+    public synchronized List<String> getAllUsernames() {
+        return userRepository.getAllUsernames();
     }
 }

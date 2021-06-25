@@ -8,7 +8,10 @@ import com.moneelab.assignment.service.user.UserService;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.List;
+
 import static com.moneelab.assignment.config.AppConfig.userService;
+import static javax.servlet.http.HttpServletResponse.*;
 
 public class UserControllerImpl implements UserController {
 
@@ -23,17 +26,22 @@ public class UserControllerImpl implements UserController {
 
     public ResponseEntity signUp(UserRequest userRequest) {
         userService.signUp(userRequest);
-        return new ResponseEntity(HttpServletResponse.SC_CREATED);
+        return new ResponseEntity(SC_CREATED);
     }
 
     public ResponseEntity signIn(UserRequest userRequest, SessionUserService sessionService) {
         UserResponse userResponse = userService.signIn(userRequest);
         sessionService.saveUser(userResponse);
-        return new ResponseEntity(HttpServletResponse.SC_OK, userResponse);
+        return new ResponseEntity(SC_OK, userResponse);
     }
 
     public ResponseEntity logout(SessionUserService sessionService) {
         sessionService.removeUser();
-        return new ResponseEntity(HttpServletResponse.SC_NO_CONTENT);
+        return new ResponseEntity(SC_NO_CONTENT);
+    }
+
+    public ResponseEntity getAllUsernames() {
+        List<String> allUsernames = userService.getAllUsernames();
+        return new ResponseEntity(SC_OK, allUsernames);
     }
 }
