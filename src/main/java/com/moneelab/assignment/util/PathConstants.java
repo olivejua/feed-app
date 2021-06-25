@@ -13,11 +13,6 @@ public abstract class PathConstants {
     //Feed Path
     public static final String FEED = COMMON_ALL  + "/feed";
 
-    //Common CUD Path
-    public static final String SAVE = "/save";
-    public static final String UPDATE = "/update";
-    public static final String DELETE = "/delete";
-
     //Post Path
     public static final String COMMON_POST = COMMON_ALL + "/post";
 

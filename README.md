@@ -42,7 +42,7 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
 └── .gitignore </br>
 
 ## 프로젝트 흐름
-
+<img src = "docs/images/request_flow.png">
 
 ## 문제해결 전략
 
