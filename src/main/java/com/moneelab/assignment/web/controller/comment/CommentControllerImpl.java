@@ -32,7 +32,6 @@ public class CommentControllerImpl implements CommentController {
     /**
      * processing presentation logic
      */
-    //TODO 사용자인증 구현하면 세션으로 로그인사용자 주입하기
     @Override
     public ResponseEntity save(CommentRequest commentRequest, SessionUserService sessionService) {
         UserResponse currentUser = sessionService.getUser();

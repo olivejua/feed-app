@@ -30,7 +30,6 @@ public class LikeControllerImpl implements LikeController {
     /**
      * processing presentation logic
      */
-    //TODO 사용자인증 구현하면 세션으로 로그인사용자 주입하기
     @Override
     public ResponseEntity doLike(Map<String, String> paramMap, SessionUserService sessionService) {
         Long postId = Long.parseLong(paramMap.get("postId"));
@@ -39,7 +38,6 @@ public class LikeControllerImpl implements LikeController {
         return new ResponseEntity(HttpServletResponse.SC_CREATED, likeId);
     }
 
-    //TODO 사용자인증 구현하면 세션으로 로그인사용자 주입하기
     @Override
     public ResponseEntity cancelLike(Map<String, String> paramMap, SessionUserService sessionService) {
         Long postId = Long.parseLong(paramMap.get("postId"));

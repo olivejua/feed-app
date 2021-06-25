@@ -1,5 +1,6 @@
 package com.moneelab.assignment.web.adapter;
 
+import com.moneelab.assignment.config.session.SessionUserService;
 import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.util.HttpMethods;
@@ -32,16 +33,16 @@ public class PostControllerHandlerAdapter extends HandlerAdapter {
         ResponseEntity result;
         switch (request.getMethod()) {
             case HttpMethods.POST:
-                result = controller.save(objectMapper.readValue(requestBody, PostRequest.class));
+                result = controller.save(objectMapper.readValue(requestBody, PostRequest.class), new SessionUserService(request.getSession()));
 
                 break;
             case HttpMethods.PUT:
                 PostRequest postRequest = objectMapper.readValue(requestBody, PostRequest.class);
-                result = controller.update(paramMap, postRequest);
+                result = controller.update(paramMap, postRequest, new SessionUserService(request.getSession(false)));
 
                 break;
             case HttpMethods.DELETE:
-                result = controller.delete(paramMap);
+                result = controller.delete(paramMap, new SessionUserService(request.getSession(false)));
 
                 break;
             default:
