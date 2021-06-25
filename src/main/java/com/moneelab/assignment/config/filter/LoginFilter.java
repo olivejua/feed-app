@@ -1,11 +1,17 @@
 package com.moneelab.assignment.config.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moneelab.assignment.config.session.SessionUserService;
+import com.moneelab.assignment.dto.ResponseEntity;
+import com.moneelab.assignment.exception.UnauthorizedException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+import static javax.servlet.http.HttpServletResponse.*;
 
 public class LoginFilter implements Filter {
     FilterConfig config;
@@ -15,17 +21,33 @@ public class LoginFilter implements Filter {
         config = filterConfig;
     }
 
+    /**
+     * [authorizing login user]
+     * if any user exists in http session,
+     * then continues a request.
+     * unless prevent from protected resources and send a response has http status of UNAUTHORIZED.
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        //do authorizing process
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         SessionUserService sessionService = new SessionUserService(httpRequest.getSession(false));
 
         if (!sessionService.existUserInSession()) {
-            //TODO FORBIDDEN
+            //
+            ResponseEntity responseEntity =
+                    new ResponseEntity(SC_UNAUTHORIZED,
+                                        new UnauthorizedException("리소스에 접근하려면 사용자 인증을 해야합니다."));
 
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.setContentType(responseEntity.getContentType());
+            httpResponse.setCharacterEncoding(responseEntity.getCharset());
+
+            httpResponse.getWriter().write(new ObjectMapper().writeValueAsString(responseEntity));
+
+        } else {
+            chain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
     }
 
     @Override

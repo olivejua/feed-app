@@ -5,6 +5,7 @@ import com.moneelab.assignment.domain.user.User;
 import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
+import com.moneelab.assignment.exception.WrongLoginInputException;
 
 import javax.servlet.http.HttpSession;
 
@@ -39,13 +40,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public synchronized UserResponse signIn(UserRequest userRequest) {
-        //세션에 저장
+    public synchronized UserResponse signIn(UserRequest userRequest) throws WrongLoginInputException {
         User user = userRepository.findByName(userRequest.getName())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이름입니다."));
+                .orElseThrow(() -> new WrongLoginInputException("존재하지 않는 이름입니다."));
 
         if (!userRequest.getPassword().equals(user.getPassword())) {
-            // 비밀번호가 일치하지 않습니다.
+            throw new WrongLoginInputException("비밀번호가 일치하지 않습니다.");
         }
 
         return new UserResponse(user);

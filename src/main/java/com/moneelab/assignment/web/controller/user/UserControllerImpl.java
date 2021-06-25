@@ -4,9 +4,8 @@ import com.moneelab.assignment.config.session.SessionUserService;
 import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
+import com.moneelab.assignment.exception.WrongLoginInputException;
 import com.moneelab.assignment.service.user.UserService;
-
-import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
@@ -30,9 +29,17 @@ public class UserControllerImpl implements UserController {
     }
 
     public ResponseEntity signIn(UserRequest userRequest, SessionUserService sessionService) {
-        UserResponse userResponse = userService.signIn(userRequest);
-        sessionService.saveUser(userResponse);
-        return new ResponseEntity(SC_OK, userResponse);
+        ResponseEntity response = null;
+
+        try {
+            UserResponse userResponse = userService.signIn(userRequest);
+            sessionService.saveUser(userResponse);
+
+            response = new ResponseEntity(SC_OK, userResponse);
+        } catch (WrongLoginInputException we) {
+            response = new ResponseEntity(SC_BAD_REQUEST, we.getMessage());
+        }
+        return response;
     }
 
     public ResponseEntity logout(SessionUserService sessionService) {
