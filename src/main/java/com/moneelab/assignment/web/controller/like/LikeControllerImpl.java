@@ -44,7 +44,7 @@ public class LikeControllerImpl implements LikeController {
     public ResponseEntity cancelLike(Map<String, String> paramMap, SessionUserService sessionService) {
         Long postId = Long.parseLong(paramMap.get("postId"));
 
-        LikeResponse likeResponse = likeService.findLikeByPostId(postId);
+        LikeResponse likeResponse = likeService.findOneByPostId(postId);
         validateUserWhoLiked(likeResponse.getUserId(), sessionService);
 
         likeService.cancelLike(postId, 0L);

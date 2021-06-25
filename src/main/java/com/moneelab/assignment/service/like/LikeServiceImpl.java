@@ -4,7 +4,9 @@ import com.moneelab.assignment.domain.like.Like;
 import com.moneelab.assignment.domain.like.LikeRepository;
 import com.moneelab.assignment.dto.like.LikeResponse;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.moneelab.assignment.config.AppConfig.likeRepository;
 
@@ -40,12 +42,19 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public synchronized LikeResponse findLikeByPostId(Long postId) {
+    public synchronized LikeResponse findOneByPostId(Long postId) {
         Optional<Like> optionalLike = likeRepository.findLikeByPostId(postId);
         if (optionalLike.isEmpty()) {
             //TODO
         }
 
         return new LikeResponse(optionalLike.get());
+    }
+
+    @Override
+    public synchronized List<LikeResponse> findLikesByPostId(Long postId) {
+        return likeRepository.findLikesByPostId(postId).stream()
+                .map(LikeResponse::new)
+                .collect(Collectors.toList());
     }
 }

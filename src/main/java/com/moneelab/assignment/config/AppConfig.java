@@ -10,6 +10,8 @@ import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.domain.user.UserRepositoryImpl;
 import com.moneelab.assignment.service.comment.CommentService;
 import com.moneelab.assignment.service.comment.CommentServiceImpl;
+import com.moneelab.assignment.service.feed.FeedService;
+import com.moneelab.assignment.service.feed.FeedServiceImpl;
 import com.moneelab.assignment.service.like.LikeService;
 import com.moneelab.assignment.service.like.LikeServiceImpl;
 import com.moneelab.assignment.service.post.PostService;
@@ -18,6 +20,8 @@ import com.moneelab.assignment.service.user.UserService;
 import com.moneelab.assignment.service.user.UserServiceImpl;
 import com.moneelab.assignment.web.controller.comment.CommentController;
 import com.moneelab.assignment.web.controller.comment.CommentControllerImpl;
+import com.moneelab.assignment.web.controller.feed.FeedController;
+import com.moneelab.assignment.web.controller.feed.FeedControllerImpl;
 import com.moneelab.assignment.web.controller.like.LikeController;
 import com.moneelab.assignment.web.controller.like.LikeControllerImpl;
 import com.moneelab.assignment.web.controller.post.PostController;
@@ -26,6 +30,17 @@ import com.moneelab.assignment.web.controller.user.UserController;
 import com.moneelab.assignment.web.controller.user.UserControllerImpl;
 
 public class AppConfig {
+
+    /**
+     * Feed
+     */
+    public static FeedController feedController() {
+        return FeedControllerImpl.getInstance();
+    }
+
+    public static FeedService feedService() {
+        return FeedServiceImpl.getInstance();
+    }
 
     /**
      * User

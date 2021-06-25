@@ -5,6 +5,9 @@ import com.moneelab.assignment.domain.post.PostRepository;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.moneelab.assignment.config.AppConfig.postRepository;
 
 public class PostServiceImpl implements PostService {
@@ -47,5 +50,13 @@ public class PostServiceImpl implements PostService {
     public synchronized PostResponse findById(Long postId) {
         Post findPost = postRepository.findById(postId);
         return new PostResponse(findPost);
+    }
+
+    @Override
+    public List<PostResponse> findAll() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream()
+                .map(PostResponse::new)
+                .collect(Collectors.toList());
     }
 }
