@@ -12,4 +12,5 @@ public interface PostController extends Controller {
     ResponseEntity save(PostRequest postRequest, SessionUserService sessionService);
     ResponseEntity update(Map<String, String> paramMap, PostRequest postRequest, SessionUserService sessionService);
     ResponseEntity delete(Map<String, String> paramMap, SessionUserService sessionService);
+    ResponseEntity findPost(Map<String, String> paramMap);
 }

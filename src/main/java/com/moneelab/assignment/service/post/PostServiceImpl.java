@@ -4,6 +4,7 @@ import com.moneelab.assignment.domain.post.Post;
 import com.moneelab.assignment.domain.post.PostRepository;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
+import com.moneelab.assignment.exception.NotExistException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +37,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public synchronized void update(Long postId, PostRequest postRequest) {
+    public synchronized void update(Long postId, PostRequest postRequest) throws NotExistException {
+        postRepository.findById(postId)
+                .orElseThrow(() -> new NotExistException("해당 post가 없습니다. postId=" + postId));
+
         postRepository.update(
                 postId, postRequest.getTitle(), postRequest.getContent());
     }
@@ -47,8 +51,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public synchronized PostResponse findById(Long postId) {
-        Post findPost = postRepository.findById(postId);
+    public PostResponse findById(Long postId) throws NotExistException {
+        Post findPost = postRepository.findById(postId)
+                .orElseThrow(() -> new NotExistException("해당 Post가 없습니다. postId="+postId));
+
         return new PostResponse(findPost);
     }
 

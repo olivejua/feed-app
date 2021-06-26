@@ -7,11 +7,14 @@ import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 import com.moneelab.assignment.dto.user.UserResponse;
 import com.moneelab.assignment.exception.NotAvailableException;
+import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.service.post.PostService;
 
 import java.util.Map;
 
 import static com.moneelab.assignment.config.AppConfig.postService;
+import static com.moneelab.assignment.util.PathConstants.HOST;
+import static com.moneelab.assignment.util.PathConstants.P_POST;
 import static javax.servlet.http.HttpServletResponse.*;
 
 public class PostControllerImpl implements PostController {
@@ -39,17 +42,24 @@ public class PostControllerImpl implements PostController {
         UserResponse currentUser = sessionService.getUser();
 
         Long savedPostId = postService.save(postRequest, currentUser.getUserId());
-        return new ResponseEntity(SC_CREATED, savedPostId);
+        return new ResponseEntity(SC_CREATED, HOST+P_POST+"?id="+savedPostId);
     }
 
     @Override
     public ResponseEntity update(Map<String, String> paramMap, PostRequest postRequest, SessionUserService sessionService) {
         Long postId = Long.parseLong(paramMap.get("id"));
 
-        validateAuthor(postId, sessionService);
-        postService.update(postId, postRequest);
+        ResponseEntity result = null;
+        try {
+            validateAuthor(postId, sessionService);
+            postService.update(postId, postRequest);
+            result = new ResponseEntity(SC_NO_CONTENT);
 
-        return new ResponseEntity(SC_NO_CONTENT);
+        } catch (NotAvailableException | NotExistException e) {
+            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(e.getMessage()));
+        }
+
+        return result;
     }
 
     @Override
@@ -69,7 +79,22 @@ public class PostControllerImpl implements PostController {
         return result;
     }
 
-    private void validateAuthor(Long postId, SessionUserService sessionService) {
+    public ResponseEntity findPost(Map<String, String> paramMap) {
+        Long postId = Long.parseLong(paramMap.get("id"));
+
+        ResponseEntity result = null;
+        try {
+            PostResponse post = postService.findById(postId);
+
+            result = new ResponseEntity(SC_OK, post);
+        } catch (NotExistException ne) {
+            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(ne.getMessage()));
+        }
+
+        return result;
+    }
+
+    private void validateAuthor(Long postId, SessionUserService sessionService) throws NotExistException, NotAvailableException {
         PostResponse post = postService.findById(postId);
 
         UserResponse currentUser = sessionService.getUser();

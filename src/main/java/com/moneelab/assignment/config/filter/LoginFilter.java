@@ -2,6 +2,7 @@ package com.moneelab.assignment.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moneelab.assignment.config.session.SessionUserService;
+import com.moneelab.assignment.dto.ErrorResponse;
 import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.exception.UnauthorizedException;
 
@@ -37,13 +38,10 @@ public class LoginFilter implements Filter {
             //
             ResponseEntity responseEntity =
                     new ResponseEntity(SC_UNAUTHORIZED,
-                                        new UnauthorizedException("리소스에 접근하려면 사용자 인증을 해야합니다."));
+                                        new ErrorResponse("리소스에 접근하려면 사용자 인증을 해야합니다."));
 
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setContentType(responseEntity.getContentType());
-            httpResponse.setCharacterEncoding(responseEntity.getCharset());
-
-            httpResponse.getWriter().write(new ObjectMapper().writeValueAsString(responseEntity));
+            responseEntity.setHttpResponse(httpResponse);
 
         } else {
             chain.doFilter(request, response);

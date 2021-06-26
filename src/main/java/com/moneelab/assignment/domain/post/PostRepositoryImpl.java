@@ -2,6 +2,7 @@ package com.moneelab.assignment.domain.post;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PostRepositoryImpl implements PostRepository {
@@ -43,8 +44,8 @@ public class PostRepositoryImpl implements PostRepository {
         store.remove(postId);
     }
 
-    public Post findById(Long postId) {
-        return store.get(postId);
+    public Optional<Post> findById(Long postId) {
+        return Optional.ofNullable(store.get(postId));
     }
 
     public List<Post> findAll() {

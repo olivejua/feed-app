@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-//TODO HandlerAdapter 중복되는 부분 합치기 (User, Post, Comment, Like)
 //TODO requestBody 객체 유효성 검사 (instanceof)
 //TODO PathVariable 타입 검사
 public class PostControllerHandlerAdapter extends HandlerAdapter {
@@ -32,6 +31,10 @@ public class PostControllerHandlerAdapter extends HandlerAdapter {
 
         ResponseEntity result;
         switch (request.getMethod()) {
+            case HttpMethods.GET:
+                result = controller.findPost(paramMap);
+
+                break;
             case HttpMethods.POST:
                 result = controller.save(objectMapper.readValue(requestBody, PostRequest.class), new SessionUserService(request.getSession()));
 
@@ -49,7 +52,7 @@ public class PostControllerHandlerAdapter extends HandlerAdapter {
                 throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
         }
 
-        setHttpResponse(response, result);
+        result.setHttpResponse(response);
     }
 
 
