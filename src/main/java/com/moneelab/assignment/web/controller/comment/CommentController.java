@@ -11,4 +11,5 @@ public interface CommentController extends Controller {
     ResponseEntity save(CommentRequest commentRequest, SessionUserService sessionService);
     ResponseEntity update(Map<String, String> paramMap, CommentRequest commentRequest, SessionUserService sessionService);
     ResponseEntity delete(Map<String, String> paramMap, SessionUserService sessionService);
+    ResponseEntity findComment(Map<String, String> paramMap);
 }

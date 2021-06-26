@@ -72,8 +72,8 @@ public class PostControllerImpl implements PostController {
             postService.delete(postId);
 
             result = new ResponseEntity(SC_NO_CONTENT);
-        } catch (NotAvailableException nae) {
-            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(nae.getMessage()));
+        } catch (NotAvailableException | NotExistException e) {
+            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(e.getMessage()));
         }
 
         return result;

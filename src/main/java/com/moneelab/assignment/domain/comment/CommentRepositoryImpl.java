@@ -1,6 +1,7 @@
 package com.moneelab.assignment.domain.comment;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -46,8 +47,8 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Comment findById(Long commentId) {
-        return store.get(commentId);
+    public Optional<Comment> findById(Long commentId) {
+        return Optional.ofNullable(store.get(commentId));
     }
 
     @Override

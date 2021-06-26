@@ -48,6 +48,6 @@ public class CommentControllerHandlerAdapter extends HandlerAdapter {
                 throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
         }
 
-        setHttpResponse(response, result);
+        result.setHttpResponse(response);
     }
 }

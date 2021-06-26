@@ -4,6 +4,7 @@ import com.moneelab.assignment.domain.comment.Comment;
 import com.moneelab.assignment.domain.comment.CommentRepository;
 import com.moneelab.assignment.dto.comment.CommentRequest;
 import com.moneelab.assignment.dto.comment.CommentResponse;
+import com.moneelab.assignment.exception.NotExistException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,8 +47,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public synchronized CommentResponse findById(Long commentId) {
-        return new CommentResponse(commentRepository.findById(commentId));
+    public synchronized CommentResponse findById(Long commentId) throws NotExistException {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotExistException("해당 댓글이 없습니다. id=" + commentId));
+
+        return new CommentResponse(comment);
     }
 
     @Override
