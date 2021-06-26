@@ -1,16 +1,18 @@
 package com.moneelab.assignment.web.controller.post;
 
 import com.moneelab.assignment.config.session.SessionUserService;
+import com.moneelab.assignment.dto.ErrorResponse;
 import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 import com.moneelab.assignment.dto.user.UserResponse;
+import com.moneelab.assignment.exception.NotAvailableException;
 import com.moneelab.assignment.service.post.PostService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 import static com.moneelab.assignment.config.AppConfig.postService;
+import static javax.servlet.http.HttpServletResponse.*;
 
 public class PostControllerImpl implements PostController {
 
@@ -37,7 +39,7 @@ public class PostControllerImpl implements PostController {
         UserResponse currentUser = sessionService.getUser();
 
         Long savedPostId = postService.save(postRequest, currentUser.getUserId());
-        return new ResponseEntity(HttpServletResponse.SC_CREATED, savedPostId);
+        return new ResponseEntity(SC_CREATED, savedPostId);
     }
 
     @Override
@@ -47,17 +49,24 @@ public class PostControllerImpl implements PostController {
         validateAuthor(postId, sessionService);
         postService.update(postId, postRequest);
 
-        return new ResponseEntity(HttpServletResponse.SC_NO_CONTENT);
+        return new ResponseEntity(SC_NO_CONTENT);
     }
 
     @Override
     public ResponseEntity delete(Map<String, String> paramMap, SessionUserService sessionService) {
         Long postId = Long.parseLong(paramMap.get("id"));
 
-        validateAuthor(postId, sessionService);
-        postService.delete(postId);
+        ResponseEntity result = null;
+        try {
+            validateAuthor(postId, sessionService);
+            postService.delete(postId);
 
-        return new ResponseEntity(HttpServletResponse.SC_NO_CONTENT);
+            result = new ResponseEntity(SC_NO_CONTENT);
+        } catch (NotAvailableException nae) {
+            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(nae.getMessage()));
+        }
+
+        return result;
     }
 
     private void validateAuthor(Long postId, SessionUserService sessionService) {
@@ -65,7 +74,7 @@ public class PostControllerImpl implements PostController {
 
         UserResponse currentUser = sessionService.getUser();
         if (!post.getAuthorId().equals(currentUser.getUserId())) {
-            //TODO 에러
+            throw new NotAvailableException("로그인 사용자와 게시물 작성자가 일치하지 않습니다.");
         }
     }
 }
