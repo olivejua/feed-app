@@ -10,4 +10,5 @@ public interface UserService {
     UserResponse signUp(UserRequest userRequest);
     UserResponse signIn(UserRequest userRequest);
     List<String> getAllUsernames();
+    UserResponse findById(Long userId);
 }

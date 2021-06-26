@@ -6,6 +6,7 @@ import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.web.controller.Controller;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 public interface UserController extends Controller {
 
@@ -13,4 +14,5 @@ public interface UserController extends Controller {
     ResponseEntity signUp(UserRequest userRequest);
     ResponseEntity logout(SessionUserService sessionService);
     ResponseEntity getAllUsernames();
+    ResponseEntity findUser(Map<String, String> paramMap);
 }

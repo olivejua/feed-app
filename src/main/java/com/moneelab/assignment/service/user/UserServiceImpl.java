@@ -1,13 +1,11 @@
 package com.moneelab.assignment.service.user;
 
-import com.moneelab.assignment.config.session.SessionUserService;
 import com.moneelab.assignment.domain.user.User;
 import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
+import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.exception.WrongLoginInputException;
-
-import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -52,7 +50,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public synchronized List<String> getAllUsernames() {
+    public List<String> getAllUsernames() {
         return userRepository.getAllUsernames();
+    }
+
+    @Override
+    public UserResponse findById(Long userId) throws NotExistException {
+        User findUser = userRepository.findById(userId)
+                .orElseThrow(() -> new NotExistException("해당 User가 없습니다. userId=" + userId));
+
+        return new UserResponse(findUser);
     }
 }

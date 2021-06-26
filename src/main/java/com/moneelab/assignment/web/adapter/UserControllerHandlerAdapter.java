@@ -28,17 +28,17 @@ public class UserControllerHandlerAdapter extends HandlerAdapter {
 
         String httpMethod = request.getMethod();
         if (httpMethod.equals(GET)) {
-            if (request.getRequestURI().equals(ALL_USERNAMES)) {
+            if (request.getRequestURI().equals(P_ALL_USERNAMES)) {
                 result = controller.getAllUsernames();
             }
         } else if (httpMethod.equals(POST)) {
             String requestBody = inputStreamToString(request.getInputStream());
 
             switch (request.getRequestURI()) {
-                case USER_SIGN_UP:
+                case P_SIGN_UP:
                     result = controller.signUp(objectMapper.readValue(requestBody, UserRequest.class));
                     break;
-                case USER_SIGN_IN:
+                case P_SIGN_IN:
                     SessionUserService sessionService = new SessionUserService(request.getSession());
                     result = controller.signIn(objectMapper.readValue(requestBody, UserRequest.class), sessionService);
                     break;
