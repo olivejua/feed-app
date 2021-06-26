@@ -5,6 +5,7 @@ import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
 import com.moneelab.assignment.exception.NotExistException;
+import com.moneelab.assignment.exception.NotUniqueException;
 import com.moneelab.assignment.exception.WrongLoginInputException;
 
 import java.util.List;
@@ -32,9 +33,12 @@ public class UserServiceImpl implements UserService {
      * processing business logic
      */
     @Override
-    public synchronized UserResponse signUp(UserRequest userRequest) {
+    public synchronized Long signUp(UserRequest userRequest) throws NotUniqueException {
+        if (userRepository.findByName(userRequest.getName()).isPresent()) {
+            throw new NotUniqueException("이미 존재하는 이름입니다. 중복되지 않는 이름으로 설정해주세요.");
+        }
         User user = userRepository.save(userRequest.toUser());
-        return new UserResponse(user);
+        return user.getId();
     }
 
     @Override

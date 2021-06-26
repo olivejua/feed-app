@@ -1,5 +1,14 @@
 package com.moneelab.assignment.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.net.URI;
+
+import static javax.servlet.http.HttpServletResponse.*;
+
 public class ResponseEntity {
 
     //Http Header
@@ -30,6 +39,22 @@ public class ResponseEntity {
     public ResponseEntity(int status, String location) {
         this.status = status;
         this.location = location;
+    }
+
+    public HttpServletResponse setHttpResponse(HttpServletResponse response) throws IOException {
+        response.setContentType(contentType);
+        response.setCharacterEncoding(charset);
+        response.setStatus(status);
+
+        if (status==SC_CREATED) {
+            response.setHeader("Location", location);
+        }
+
+        if (body != null) {
+            response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        }
+
+        return response;
     }
 
     /**

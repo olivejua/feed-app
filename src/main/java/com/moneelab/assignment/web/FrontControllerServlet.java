@@ -33,6 +33,8 @@ public class FrontControllerServlet extends HttpServlet {
         handlerMappingMap.put(P_ALL_USERNAMES, userController());
         handlerMappingMap.put(P_SIGN_UP, userController());
         handlerMappingMap.put(P_SIGN_IN, userController());
+        handlerMappingMap.put(P_LOGOUT, userController());
+        handlerMappingMap.put(P_USER, userController());
 
         handlerMappingMap.put(P_FEED, feedController());
 

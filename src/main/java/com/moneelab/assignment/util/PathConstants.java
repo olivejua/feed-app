@@ -1,6 +1,8 @@
 package com.moneelab.assignment.util;
 
 public abstract class PathConstants {
+    public static final String HOST = "http://localhost:8080";
+
     //Common Path for All
     public static final String P_COMMON = "/api/v1";
 

@@ -28,8 +28,15 @@ public class UserControllerHandlerAdapter extends HandlerAdapter {
 
         String httpMethod = request.getMethod();
         if (httpMethod.equals(GET)) {
-            if (request.getRequestURI().equals(P_ALL_USERNAMES)) {
-                result = controller.getAllUsernames();
+            switch (request.getRequestURI()) {
+                case P_ALL_USERNAMES:
+                    result = controller.getAllUsernames();
+                    break;
+                case P_USER:
+                    result = controller.findUser(createParamMap(request));
+                    break;
+                case P_LOGOUT:
+                    result = controller.logout(new SessionUserService(request.getSession(false)));
             }
         } else if (httpMethod.equals(POST)) {
             String requestBody = inputStreamToString(request.getInputStream());
@@ -42,11 +49,13 @@ public class UserControllerHandlerAdapter extends HandlerAdapter {
                     SessionUserService sessionService = new SessionUserService(request.getSession());
                     result = controller.signIn(objectMapper.readValue(requestBody, UserRequest.class), sessionService);
                     break;
-                default:
-                    throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
             }
         }
 
-        setHttpResponse(response, result);
+        if (result == null) {
+            throw new IllegalArgumentException("요청하신 경로를 찾을 수 없습니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
+        }
+
+        result.setHttpResponse(response);
     }
 }

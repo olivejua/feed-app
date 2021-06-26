@@ -6,13 +6,17 @@ import com.moneelab.assignment.dto.ResponseEntity;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
 import com.moneelab.assignment.exception.NotExistException;
+import com.moneelab.assignment.exception.NotUniqueException;
 import com.moneelab.assignment.exception.WrongLoginInputException;
 import com.moneelab.assignment.service.user.UserService;
+import com.moneelab.assignment.util.PathConstants;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
 import static com.moneelab.assignment.config.AppConfig.userService;
+import static com.moneelab.assignment.util.PathConstants.*;
 import static javax.servlet.http.HttpServletResponse.*;
 
 public class UserControllerImpl implements UserController {
@@ -38,8 +42,16 @@ public class UserControllerImpl implements UserController {
      * processing presentation logic
      */
     public ResponseEntity signUp(UserRequest userRequest) {
-        userService.signUp(userRequest);
-        return new ResponseEntity(SC_CREATED);
+        ResponseEntity result = null;
+
+        try {
+            Long userId = userService.signUp(userRequest);
+            result = new ResponseEntity(SC_CREATED, HOST+P_USER+"?id="+userId);
+        } catch (NotUniqueException nue) {
+            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(nue.getMessage()));
+        }
+
+        return result;
     }
 
     public ResponseEntity signIn(UserRequest userRequest, SessionUserService sessionService) {
