@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.moneelab.assignment.util.HttpMethods.GET;
-import static com.moneelab.assignment.util.PathConstants.FEED;
+import static com.moneelab.assignment.util.PathConstants.P_FEED;
 
 public class FeedControllerHandlerAdapter extends HandlerAdapter {
 
@@ -24,7 +24,7 @@ public class FeedControllerHandlerAdapter extends HandlerAdapter {
         FeedController controller = (FeedController) handler;
 
         ResponseEntity result;
-        if (request.getRequestURI().equals(FEED) && request.getMethod().equals(GET)) {
+        if (request.getRequestURI().equals(P_FEED) && request.getMethod().equals(GET)) {
             result = controller.getContents();
         } else {
             throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
