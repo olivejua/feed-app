@@ -5,11 +5,13 @@ import com.moneelab.assignment.domain.post.PostRepository;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 import com.moneelab.assignment.exception.NotExistException;
+import com.moneelab.assignment.service.user.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.moneelab.assignment.config.AppConfig.postRepository;
+import static com.moneelab.assignment.config.AppConfig.userService;
 
 public class PostServiceImpl implements PostService {
 
@@ -17,6 +19,7 @@ public class PostServiceImpl implements PostService {
      * invoking a repository instance
      */
     private PostRepository postRepository = postRepository();
+    private UserService userService = userService();
 
     /**
      * making it Singleton
@@ -32,21 +35,25 @@ public class PostServiceImpl implements PostService {
      * processing business logic
      */
     @Override
-    public synchronized Long save(PostRequest postRequest, Long authorId) {
+    public synchronized Long save(PostRequest postRequest, Long authorId) throws NotExistException {
+        //user 존재하는지 유효성 검사
+        userService.findById(authorId);
+
         return postRepository.save(postRequest.toPost(authorId));
     }
 
     @Override
     public synchronized void update(Long postId, PostRequest postRequest) throws NotExistException {
-        postRepository.findById(postId)
-                .orElseThrow(() -> new NotExistException("해당 post가 없습니다. postId=" + postId));
+        validate(postId);
 
         postRepository.update(
                 postId, postRequest.getTitle(), postRequest.getContent());
     }
 
     @Override
-    public synchronized void delete(Long postId) {
+    public synchronized void delete(Long postId) throws NotExistException {
+        validate(postId);
+
         postRepository.deleteById(postId);
     }
 
@@ -64,5 +71,14 @@ public class PostServiceImpl implements PostService {
         return posts.stream()
                 .map(PostResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    private void validate(Long postId) throws NotExistException {
+        //post 존재하는지 유효성 검사
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new NotExistException("해당 post가 없습니다. postId=" + postId));
+
+        //user 존재하는지 유효성 검사
+        userService.findById(post.getAuthorId());
     }
 }

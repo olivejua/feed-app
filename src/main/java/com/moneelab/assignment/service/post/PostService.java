@@ -7,11 +7,11 @@ import com.moneelab.assignment.exception.NotExistException;
 import java.util.List;
 
 public interface PostService {
-    Long save(PostRequest postRequest, Long authorId);
+    Long save(PostRequest postRequest, Long authorId) throws NotExistException;
 
     void update(Long postId, PostRequest postRequest) throws NotExistException;
 
-    void delete(Long postId);
+    void delete(Long postId) throws NotExistException;
 
     PostResponse findById(Long postId) throws NotExistException;
 
