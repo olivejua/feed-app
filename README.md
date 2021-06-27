@@ -18,10 +18,20 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
 
 ## DB
 ### 설계
+<img src = "/docs/images/db_structure.png">
 
 ### In-Memory
+#### User (사용자)
+<img src = "/docs/images/db_user.png">
 
+#### Post (게시물)
+<img src = "/docs/images/db_post.png">
 
+#### Comment (댓글)
+<img src = "/docs/images/db_comment.png">
+
+#### Like (좋아요)
+<img src = "/docs/images/db_like.png">
 
 
 ## 프로젝트 구조
