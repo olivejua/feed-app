@@ -42,6 +42,12 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
+    public synchronized void deleteByPostId(Long postId) {
+        store.values()
+                .forEach(like -> store.remove(like.getId()));
+    }
+
+    @Override
     public List<Like> findLikesByPostId(Long postId) {
         return store.values().stream()
                 .filter(like -> like.getPostId().equals(postId))

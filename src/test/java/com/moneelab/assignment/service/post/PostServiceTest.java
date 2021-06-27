@@ -1,11 +1,17 @@
 package com.moneelab.assignment.service.post;
 
+import com.moneelab.assignment.domain.comment.Comment;
+import com.moneelab.assignment.domain.comment.CommentRepository;
+import com.moneelab.assignment.domain.like.LikeRepository;
 import com.moneelab.assignment.domain.post.Post;
 import com.moneelab.assignment.domain.post.PostRepository;
+import com.moneelab.assignment.dto.comment.CommentRequest;
 import com.moneelab.assignment.dto.post.PostRequest;
 import com.moneelab.assignment.dto.post.PostResponse;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.exception.NotExistException;
+import com.moneelab.assignment.service.comment.CommentService;
+import com.moneelab.assignment.service.like.LikeService;
 import com.moneelab.assignment.service.user.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +28,17 @@ public class PostServiceTest {
     private PostService postService = postService();
     private PostRepository postRepository = postRepository();
 
+    private CommentService commentService = commentService();
+    private CommentRepository commentRepository = commentRepository();
+    private LikeService likeService = likeService();
+    private LikeRepository likeRepository = likeRepository();
+
     private static int userCount = 100;
 
     @AfterEach()
     void cleanup() {
+        likeRepository.clearAll();
+        commentRepository.clearAll();
         postRepository.clearAll();
         userRepository().clearAll();
     }
@@ -107,11 +120,18 @@ public class PostServiceTest {
         //given
         Long postId = savePost();
 
+        for (int i=0; i<3; i++) {
+            saveComment(postId);
+            likeService.doLike(postId, signUp());
+        }
+
         //when
         postService.delete(postId);
 
-        Post findPost = postRepository.findById(postId).orElse(null);
+        assertEquals(0, commentRepository.findCommentsByPostId(postId).size());
+        assertEquals(0, likeRepository.findLikesByPostId(postId).size());
 
+        Post findPost = postRepository.findById(postId).orElse(null);
         //then
         assertNull(findPost);
     }
@@ -150,6 +170,16 @@ public class PostServiceTest {
         //then
         assertNotNull(posts);
         assertEquals(15, posts.size());
+    }
+
+    private Long saveComment(Long postId) {
+        Long authorId = signUp();
+
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setPostId(postId);
+        commentRequest.setContent("sample save content");
+
+        return commentService.save(commentRequest, authorId);
     }
 
 

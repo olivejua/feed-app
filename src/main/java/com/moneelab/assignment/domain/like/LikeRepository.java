@@ -6,6 +6,7 @@ import java.util.Optional;
 public interface LikeRepository {
     Long save(Like like);
     void delete(Long postId, Long userId);
+    void deleteByPostId(Long postId);
     List<Like> findLikesByPostId(Long postId);
     Optional<Like> findOneByPostIdAndUserId(Long postId, Long userId);
     Optional<Like> findOneById(Long likeId);

@@ -42,8 +42,14 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public void deleteById(Long commentId) {
+    public synchronized void deleteById(Long commentId) {
         store.remove(commentId);
+    }
+
+    @Override
+    public synchronized void deleteByPostId(Long postId) {
+        store.values()
+                .forEach(comment -> store.remove(comment.getId()));
     }
 
     @Override

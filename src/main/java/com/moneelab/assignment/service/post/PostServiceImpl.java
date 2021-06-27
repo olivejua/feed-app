@@ -1,5 +1,7 @@
 package com.moneelab.assignment.service.post;
 
+import com.moneelab.assignment.domain.comment.CommentRepository;
+import com.moneelab.assignment.domain.like.LikeRepository;
 import com.moneelab.assignment.domain.post.Post;
 import com.moneelab.assignment.domain.post.PostRepository;
 import com.moneelab.assignment.dto.post.PostRequest;
@@ -10,16 +12,17 @@ import com.moneelab.assignment.service.user.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.moneelab.assignment.config.AppConfig.postRepository;
-import static com.moneelab.assignment.config.AppConfig.userService;
+import static com.moneelab.assignment.config.AppConfig.*;
 
 public class PostServiceImpl implements PostService {
 
     /**
-     * invoking a repository instance
+     * invoking repository instances
      */
     private PostRepository postRepository = postRepository();
     private UserService userService = userService();
+    private CommentRepository commentRepository = commentRepository();
+    private LikeRepository likeRepository = likeRepository();
 
     /**
      * making it Singleton
@@ -54,6 +57,8 @@ public class PostServiceImpl implements PostService {
     public synchronized void delete(Long postId) throws NotExistException {
         validate(postId);
 
+        likeRepository.deleteByPostId(postId);
+        commentRepository.deleteByPostId(postId);
         postRepository.deleteById(postId);
     }
 
