@@ -9,6 +9,7 @@ import com.moneelab.assignment.exception.NotAvailableException;
 import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.service.post.PostService;
 import com.moneelab.assignment.service.user.UserService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,14 @@ public class LikeServiceTest {
     private LikeService likeService = likeService();
     private LikeRepository likeRepository = likeRepository();
 
-    private static int userCount = 0;
+    private static int userCount = 300;
+
+    @AfterEach()
+    void cleanup() {
+        likeRepository.clearAll();
+        postRepository().clearAll();
+        userRepository().clearAll();
+    }
 
     @Test
     @DisplayName("LikeService: 좋아요를 정상 요청한다")

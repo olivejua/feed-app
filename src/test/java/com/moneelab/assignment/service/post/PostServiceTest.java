@@ -7,6 +7,7 @@ import com.moneelab.assignment.dto.post.PostResponse;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.service.user.UserService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,13 @@ public class PostServiceTest {
     private PostService postService = postService();
     private PostRepository postRepository = postRepository();
 
-    private static int userCount = 0;
+    private static int userCount = 100;
+
+    @AfterEach()
+    void cleanup() {
+        postRepository.clearAll();
+        userRepository().clearAll();
+    }
 
     @Test
     @DisplayName("PostService: 작성한 게시물을 정상 등록 요청한다")

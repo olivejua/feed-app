@@ -1,20 +1,29 @@
 package com.moneelab.assignment.service.user;
 
+import com.moneelab.assignment.domain.user.UserRepository;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.dto.user.UserResponse;
 import com.moneelab.assignment.exception.NotUniqueException;
 import com.moneelab.assignment.exception.WrongLoginInputException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.moneelab.assignment.config.AppConfig.userRepository;
 import static com.moneelab.assignment.config.AppConfig.userService;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserServiceTest {
 
     private UserService userService = userService();
+    private UserRepository userRepository = userRepository();
+
+    @AfterEach()
+    void cleanup() {
+        userRepository.clearAll();
+    }
 
     @Test
     @DisplayName("UserService: 회원가입 정상 요청을 한다")

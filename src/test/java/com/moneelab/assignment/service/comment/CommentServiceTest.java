@@ -8,6 +8,7 @@ import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.service.post.PostService;
 import com.moneelab.assignment.service.user.UserService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,14 @@ public class CommentServiceTest {
     private CommentService commentService = commentService();
     private CommentRepository commentRepository = commentRepository();
 
-    private static int userCount = 0;
+    private static int userCount = 200;
+
+    @AfterEach()
+    void cleanup() {
+        commentRepository.clearAll();
+        postRepository().clearAll();
+        userRepository().clearAll();
+    }
 
     @Test
     @DisplayName("CommentService: 댓글을 등록 요청한다")
