@@ -13,10 +13,15 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
 - [Feed] 댓글 CRUD API
 - [Feed] 좋아요 CRUD API
 
+## API 문서
+[Postman을 이용한 API문서](https://documenter.getpostman.com/view/8568933/TzedhQh6)
+
 ## DB
 ### 설계
 
 ### In-Memory
+
+
 
 
 ## 프로젝트 구조
