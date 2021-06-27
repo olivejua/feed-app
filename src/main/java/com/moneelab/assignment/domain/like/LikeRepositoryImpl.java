@@ -37,17 +37,8 @@ public class LikeRepositoryImpl implements LikeRepository {
 
     @Override
     public void delete(Long postId, Long userId) {
-        findLike(postId, userId)
+        findOneByPostIdAndUserId(postId, userId)
                 .ifPresent(like -> store.remove(like.getId()));
-    }
-
-    @Override
-    public Optional<Like> findLike(Long postId, Long userId) {
-        return store.values().stream()
-                .filter(like ->
-                        like.getPostId().equals(postId) &&
-                                like.getUserId().equals(userId))
-                .findAny();
     }
 
     @Override
@@ -58,9 +49,11 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public Optional<Like> findLikeByPostIdAndUserId(Long postId, Long userId) {
+    public Optional<Like> findOneByPostIdAndUserId(Long postId, Long userId) {
         return store.values().stream()
-                .filter(like -> like.getPostId().equals(postId) && like.getUserId().equals(userId))
+                .filter(like ->
+                        like.getPostId().equals(postId) &&
+                                like.getUserId().equals(userId))
                 .findAny();
     }
 

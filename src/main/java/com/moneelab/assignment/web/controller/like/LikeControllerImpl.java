@@ -44,7 +44,7 @@ public class LikeControllerImpl implements LikeController {
             Long likeId = likeService.doLike(postId, sessionService.getUser().getUserId());
 
             result = new ResponseEntity(HttpServletResponse.SC_CREATED, HOST+P_LIKE+"?id="+likeId);
-        } catch (NotExistException e) {
+        } catch (NotExistException | NotAvailableException e) {
             result = new ResponseEntity(HttpServletResponse.SC_BAD_REQUEST, new ErrorResponse(e.getMessage()));
         }
 
