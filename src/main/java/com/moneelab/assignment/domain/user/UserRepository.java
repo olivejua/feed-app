@@ -9,4 +9,5 @@ public interface UserRepository {
     Optional<User> findById(Long userId);
     Optional<User> findByName(String username);
     List<String> getAllUsernames();
+    void clearAll();
 }

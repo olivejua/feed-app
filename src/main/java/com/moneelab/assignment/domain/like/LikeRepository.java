@@ -9,4 +9,5 @@ public interface LikeRepository {
     List<Like> findLikesByPostId(Long postId);
     Optional<Like> findOneByPostIdAndUserId(Long postId, Long userId);
     Optional<Like> findOneById(Long likeId);
+    void clearAll();
 }

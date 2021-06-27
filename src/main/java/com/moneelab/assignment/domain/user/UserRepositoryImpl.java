@@ -53,4 +53,9 @@ public class UserRepositoryImpl implements UserRepository {
                 .map(User::getName)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void clearAll() {
+        store.clear();
+    }
 }

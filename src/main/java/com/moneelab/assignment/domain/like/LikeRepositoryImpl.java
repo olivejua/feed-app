@@ -63,4 +63,9 @@ public class LikeRepositoryImpl implements LikeRepository {
                 .filter(like -> like.getId().equals(likeId))
                 .findAny();
     }
+
+    @Override
+    public void clearAll() {
+        store.clear();
+    }
 }

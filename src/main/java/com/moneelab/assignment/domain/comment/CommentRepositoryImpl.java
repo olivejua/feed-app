@@ -57,4 +57,9 @@ public class CommentRepositoryImpl implements CommentRepository {
                 .filter(comment -> comment.getPostId().equals(postId))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void clearAll() {
+        store.clear();
+    }
 }
