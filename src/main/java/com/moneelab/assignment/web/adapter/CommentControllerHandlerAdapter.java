@@ -31,17 +31,21 @@ public class CommentControllerHandlerAdapter extends HandlerAdapter {
 
         ResponseEntity result;
         switch (request.getMethod()) {
+            case HttpMethods.GET:
+                result = controller.findComment(paramMap);
+
+                break;
             case HttpMethods.POST:
                 result = controller.save(objectMapper.readValue(requestBody, CommentRequest.class), new SessionUserService(request.getSession()));
 
                 break;
             case HttpMethods.PUT:
                 CommentRequest commentRequest = objectMapper.readValue(requestBody, CommentRequest.class);
-                result = controller.update(paramMap, commentRequest, new SessionUserService(request.getSession(false)));
+                result = controller.update(paramMap, commentRequest, new SessionUserService(request.getSession()));
 
                 break;
             case HttpMethods.DELETE:
-                result = controller.delete(paramMap, new SessionUserService(request.getSession(false)));
+                result = controller.delete(paramMap, new SessionUserService(request.getSession()));
 
                 break;
             default:

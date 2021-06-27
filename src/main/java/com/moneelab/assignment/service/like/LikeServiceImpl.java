@@ -3,11 +3,13 @@ package com.moneelab.assignment.service.like;
 import com.moneelab.assignment.domain.like.Like;
 import com.moneelab.assignment.domain.like.LikeRepository;
 import com.moneelab.assignment.dto.like.LikeResponse;
+import com.moneelab.assignment.exception.NotExistException;
+import com.moneelab.assignment.service.post.PostService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.moneelab.assignment.config.AppConfig.*;
 import static com.moneelab.assignment.config.AppConfig.likeRepository;
 
 public class LikeServiceImpl implements LikeService {
@@ -16,6 +18,7 @@ public class LikeServiceImpl implements LikeService {
      * invoking a repository instance
      */
     private LikeRepository likeRepository = likeRepository();
+    private PostService postService = postService();
 
     /**
      * making it Singleton
@@ -37,18 +40,19 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public synchronized void cancelLike(Long postId, Long userId) {
+    public synchronized void cancelLike(Long postId, Long userId) throws NotExistException {
+        findOneByPostIdAndUserId(postId, userId);
         likeRepository.delete(postId, userId);
     }
 
     @Override
-    public synchronized LikeResponse findOneByPostId(Long postId) {
-        Optional<Like> optionalLike = likeRepository.findLikeByPostId(postId);
-        if (optionalLike.isEmpty()) {
-            //TODO
-        }
+    public LikeResponse findOneByPostIdAndUserId(Long postId, Long userId) throws NotExistException {
+        postService.findById(postId);
 
-        return new LikeResponse(optionalLike.get());
+        Like like = likeRepository.findLikeByPostIdAndUserId(postId, userId)
+                .orElseThrow(() -> new NotExistException("좋아요한 이력이 없습니다. postId=" + postId + ", userId=" + userId));
+
+        return new LikeResponse(like);
     }
 
     @Override
@@ -57,4 +61,13 @@ public class LikeServiceImpl implements LikeService {
                 .map(LikeResponse::new)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public LikeResponse findOneById(Long likeId) throws NotExistException {
+        Like like = likeRepository.findOneById(likeId)
+                .orElseThrow(() -> new NotExistException("좋아요한 이력이 없습니다. likeId=" + likeId));
+
+        return new LikeResponse(like);
+    }
+
 }

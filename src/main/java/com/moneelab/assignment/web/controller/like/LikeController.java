@@ -9,4 +9,5 @@ import java.util.Map;
 public interface LikeController extends Controller {
     ResponseEntity doLike(Map<String, String> paramMap, SessionUserService sessionService);
     ResponseEntity cancelLike(Map<String, String> paramMap, SessionUserService sessionService);
+    ResponseEntity findLike(Map<String, String> paramMap);
 }
