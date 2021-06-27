@@ -28,7 +28,7 @@ public class CommentRepositoryImpl implements CommentRepository {
      * manipulating domain object
      */
     @Override
-    public Long save(Comment comment) {
+    public synchronized Long save(Comment comment) {
         comment.initId(++sequence);
         store.put(comment.getId(), comment);
 
@@ -36,7 +36,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public void update(Long commentId, String content) {
+    public synchronized void update(Long commentId, String content) {
         Comment comment = store.get(commentId);
         comment.update(content);
     }

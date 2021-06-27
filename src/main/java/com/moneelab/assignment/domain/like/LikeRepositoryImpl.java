@@ -28,7 +28,7 @@ public class LikeRepositoryImpl implements LikeRepository {
      * manipulating domain object
      */
     @Override
-    public Long save(Like like) {
+    public synchronized Long save(Like like) {
         like.initId(++sequence);
         store.put(like.getId(), like);
 
@@ -36,7 +36,7 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public void delete(Long postId, Long userId) {
+    public synchronized void delete(Long postId, Long userId) {
         findOneByPostIdAndUserId(postId, userId)
                 .ifPresent(like -> store.remove(like.getId()));
     }
@@ -65,7 +65,7 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public void clearAll() {
+    public synchronized void clearAll() {
         store.clear();
     }
 }

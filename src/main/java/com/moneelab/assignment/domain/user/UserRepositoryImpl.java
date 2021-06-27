@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
      * manipulating domain object
      */
     @Override
-    public User save(User user) {
+    public synchronized User save(User user) {
         user.initId(++sequence);
         store.put(user.getId(), user);
 
@@ -55,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void clearAll() {
+    public synchronized void clearAll() {
         store.clear();
     }
 }

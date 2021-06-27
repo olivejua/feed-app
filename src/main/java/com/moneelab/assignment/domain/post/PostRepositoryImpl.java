@@ -28,19 +28,19 @@ public class PostRepositoryImpl implements PostRepository {
     /**
      * manipulating domain object
      */
-    public Long save(Post post) {
+    public synchronized Long save(Post post) {
         post.initId(++sequence);
         store.put(post.getId(), post);
 
         return post.getId();
     }
 
-    public void update(Long postId, String updatedTitle, String updatedContent) {
+    public synchronized void update(Long postId, String updatedTitle, String updatedContent) {
         Post post = store.get(postId);
         post.update(updatedTitle, updatedContent);
     }
 
-    public void deleteById(Long postId) {
+    public synchronized void deleteById(Long postId) {
         store.remove(postId);
     }
 
@@ -52,7 +52,7 @@ public class PostRepositoryImpl implements PostRepository {
         return new ArrayList<>(store.values());
     }
 
-    public void clearAll() {
+    public synchronized void clearAll() {
         store.clear();
     }
 }
