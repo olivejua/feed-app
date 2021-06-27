@@ -76,7 +76,6 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
     - RequestDTO에 `setter`를 추가한 이유
     - 다른 domain, dto 객체에는 추가하지 않은 이유
 
-## 실행방법
 ### Tomcat 설정 및 빌드
 1. intellij에 프로젝트를 실행하고, 빌드가 잘되는지 확인한다.
     빌드가 안되어 있다면 `Project Structure`에 SDK 설정이 잘 되어 있는지 확인한다.
@@ -84,18 +83,17 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
 3. 좌측에 `+` 버튼을 클릭하여 `Tomcat Server` -> `Local`을 선택한다.
 
 <img src = "/docs/images/setting-tomcat1.png">
-4. Application Server에 tomcat 경로를 선택하고 Name에 이름도 지정해준다.
+
+4. `Application Server`에 tomcat 경로를 선택하고 `Name`에 서버 이름도 지정해준다.
 
 <img src = "/docs/images/setting-tomcat2.png">
+
 5. 우측 하단에 `Fix` 버튼을 클릭하여 첫번째를 선택한다.
 
-<img src = "/docs/images/setting-tomcat3.png"> 
+<img src = "/docs/images/setting-tomcat3.png">
+ 
 6. `Application Server`에 경로를 `/`로 변경해준다.
 
 <img src = "/docs/images/setting-tomcat4.png">
+
 7. `OK` 버튼을 누르고 tomcat 실행을 한다.
-
-
-### Postman 실행
-
-### Test 실행
