@@ -7,7 +7,6 @@ import com.moneelab.assignment.dto.post.PostResponse;
 import com.moneelab.assignment.dto.user.UserRequest;
 import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.service.user.UserService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
