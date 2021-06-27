@@ -12,8 +12,7 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
 - [Feed] 댓글 CRUD API
 - [Feed] 좋아요 CRUD API
 
-## API 문서
-[Postman을 이용한 API문서](https://documenter.getpostman.com/view/8568933/TzedhQh6)
+### API 문서 [보러가기](https://documenter.getpostman.com/view/8568933/TzedhQh6)
 
 ## DB
 ### 설계
@@ -31,29 +30,6 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
 
 #### Like (좋아요)
 <img src = "/docs/images/db_like.png">
-
-
-## 프로젝트 구조
-├── README.md </br>
-├── src </br>
-│   ├── main </br>
-│   │   ├── java.com.moneelab.assignment </br>
-│   │   │   ├── domain </br>
-│   │   │   ├── dto </br>
-│   │   │   ├── repository </br>
-│   │   │   ├── util </br>
-│   │   │   └── web </br>
-│   │   │   │   ├── adapter </br>
-│   │   │   │   ├── controller </br>
-│   ├── resources </br>
-│   └── webapp </br>
-│   ├── test </br>
-│   │   ├── java.com.moneelab.assignment </br>
-│   │   └── resources </br>
-├── build.gradle </br>
-├── gradlew </br>
-├── gradlew.bat </br>
-└── .gitignore </br>
 
 ## 프로젝트 흐름
 <img src = "docs/images/request_flow.png">
@@ -76,7 +52,7 @@ Facebook Feed처럼 글을 올리고, 그 글에 댓글과 좋아요를 눌러 �
     - RequestDTO에 `setter`를 추가한 이유
     - 다른 domain, dto 객체에는 추가하지 않은 이유
 
-### Tomcat 설정 및 빌드
+## Tomcat 설정 및 빌드
 1. intellij에 프로젝트를 실행하고, 빌드가 잘되는지 확인한다.
     빌드가 안되어 있다면 `Project Structure`에 SDK 설정이 잘 되어 있는지 확인한다.
 2. 상단에 `Run` -> `Edit Configurations...` 를 선택한다.
