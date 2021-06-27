@@ -1,15 +1,19 @@
 package com.moneelab.assignment.service.comment;
 
+import com.moneelab.assignment.config.AppConfig;
 import com.moneelab.assignment.domain.comment.Comment;
 import com.moneelab.assignment.domain.comment.CommentRepository;
 import com.moneelab.assignment.dto.comment.CommentRequest;
 import com.moneelab.assignment.dto.comment.CommentResponse;
 import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.service.post.PostService;
+import com.moneelab.assignment.service.user.UserService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.moneelab.assignment.config.AppConfig.*;
 import static com.moneelab.assignment.config.AppConfig.commentRepository;
 import static com.moneelab.assignment.config.AppConfig.postService;
 
@@ -20,6 +24,7 @@ public class CommentServiceImpl implements CommentService {
      */
     private CommentRepository commentRepository = commentRepository();
     private PostService postService = postService();
+    private UserService userService = userService();
 
     /**
      * making it Singleton
@@ -36,21 +41,21 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public synchronized Long save(CommentRequest commentRequest, Long authorId) throws NotExistException {
-        postService.findById(commentRequest.getPostId());
+        validate(commentRequest.getPostId(), authorId);
+
         return commentRepository.save(commentRequest.toComment(authorId));
     }
 
     @Override
     public synchronized void update(Long commentId, CommentRequest commentRequest) throws NotExistException{
-        postService.findById(commentRequest.getPostId());
+        validate(commentRequest.getPostId());
+
         commentRepository.update(commentId, commentRequest.getContent());
     }
 
     @Override
     public synchronized void delete(Long commentId) throws NotExistException {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotExistException("해당 댓글이 없습니다. id=" + commentId));
-        postService.findById(comment.getPostId());
+        validate(commentRepository.findById(commentId), commentId);
 
         commentRepository.deleteById(commentId);
     }
@@ -70,5 +75,22 @@ public class CommentServiceImpl implements CommentService {
         return comments.stream()
                 .map(CommentResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    private void validate(Long postId) throws NotExistException {
+        postService.findById(postId);
+    }
+
+    private void validate(Long postId, Long authorId) throws NotExistException {
+        validate(postId);
+        userService.findById(authorId);
+    }
+
+    private void validate(Optional<Comment> optionalComment, Long commentId) throws NotExistException {
+        Comment comment = optionalComment
+                .orElseThrow(() -> new NotExistException("해당 댓글이 없습니다. id="+commentId));
+
+        validate(comment.getPostId(), comment.getAuthorId());
+
     }
 }
