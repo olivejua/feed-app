@@ -6,6 +6,7 @@ import com.moneelab.assignment.dto.like.LikeResponse;
 import com.moneelab.assignment.exception.NotAvailableException;
 import com.moneelab.assignment.exception.NotExistException;
 import com.moneelab.assignment.service.post.PostService;
+import com.moneelab.assignment.service.user.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +18,11 @@ import static com.moneelab.assignment.config.AppConfig.likeRepository;
 public class LikeServiceImpl implements LikeService {
 
     /**
-     * invoking a repository instance
+     * invoking repository instances
      */
     private LikeRepository likeRepository = likeRepository();
     private PostService postService = postService();
+    private UserService userService = userService();
 
     /**
      * making it Singleton
@@ -37,8 +39,8 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     public synchronized Long doLike(Long postId, Long userId) throws NotExistException, NotAvailableException {
-        //좋아요한 게시물이 있는지 확인
-        postService.findById(postId);
+        validate(postId, userId);
+
         Optional<Like> optionalLike = likeRepository.findOneByPostIdAndUserId(postId, userId);
 
         if (optionalLike.isPresent()) {
@@ -51,17 +53,15 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public synchronized void cancelLike(Long postId, Long userId) throws NotExistException {
-        //좋아요한 게시물이 있는지 확인
-        postService.findById(postId);
-
+        validate(postId, userId);
         findOneByPostIdAndUserId(postId, userId);
+
         likeRepository.delete(postId, userId);
     }
 
     @Override
     public LikeResponse findOneByPostIdAndUserId(Long postId, Long userId) throws NotExistException {
-        //좋아요한 게시물이 있는지 확인
-        postService.findById(postId);
+        validate(postId, userId);
 
         Like like = likeRepository.findOneByPostIdAndUserId(postId, userId)
                 .orElseThrow(() -> new NotExistException("좋아요한 이력이 없습니다. postId=" + postId + ", userId=" + userId));
@@ -82,6 +82,11 @@ public class LikeServiceImpl implements LikeService {
                 .orElseThrow(() -> new NotExistException("좋아요한 이력이 없습니다. likeId=" + likeId));
 
         return new LikeResponse(like);
+    }
+
+    private void validate(Long postId, Long userId) throws NotExistException {
+        postService.findById(postId);
+        userService.findById(userId);
     }
 
 }
