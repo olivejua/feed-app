@@ -36,7 +36,7 @@ public class UserControllerHandlerAdapter extends HandlerAdapter {
                     result = controller.findUser(createParamMap(request));
                     break;
                 case P_LOGOUT:
-                    result = controller.logout(new SessionUserService(request.getSession(false)));
+                    result = controller.logout(new SessionUserService(request.getSession()));
             }
         } else if (httpMethod.equals(POST)) {
             String requestBody = inputStreamToString(request.getInputStream());

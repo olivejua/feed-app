@@ -58,9 +58,16 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public Optional<Like> findLikeByPostId(Long postId) {
+    public Optional<Like> findLikeByPostIdAndUserId(Long postId, Long userId) {
         return store.values().stream()
-                .filter(like -> like.getPostId().equals(postId))
+                .filter(like -> like.getPostId().equals(postId) && like.getUserId().equals(userId))
+                .findAny();
+    }
+
+    @Override
+    public Optional<Like> findOneById(Long likeId) {
+        return store.values().stream()
+                .filter(like -> like.getId().equals(likeId))
                 .findAny();
     }
 }

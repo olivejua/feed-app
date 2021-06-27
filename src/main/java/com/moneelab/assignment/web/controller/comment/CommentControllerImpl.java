@@ -12,6 +12,7 @@ import com.moneelab.assignment.service.comment.CommentService;
 import com.moneelab.assignment.util.PathConstants;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 import java.util.Map;
 
 import static com.moneelab.assignment.config.AppConfig.commentService;
@@ -40,10 +41,16 @@ public class CommentControllerImpl implements CommentController {
      */
     @Override
     public ResponseEntity save(CommentRequest commentRequest, SessionUserService sessionService) {
-        UserResponse currentUser = sessionService.getUser();
+        ResponseEntity result = null;
+        try {
+            UserResponse currentUser = sessionService.getUser();
+            Long savedCommentId = commentService.save(commentRequest, currentUser.getUserId());
+            result = new ResponseEntity(SC_CREATED, HOST+P_COMMENT+"?id="+savedCommentId);
+        } catch (NotExistException e) {
+            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(e.getMessage()));
+        }
 
-        Long savedCommentId = commentService.save(commentRequest, currentUser.getUserId());
-        return new ResponseEntity(SC_CREATED, HOST+P_COMMENT+"?id="+savedCommentId);
+        return result;
     }
 
     @Override

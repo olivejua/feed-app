@@ -13,8 +13,7 @@ import com.moneelab.assignment.service.post.PostService;
 import java.util.Map;
 
 import static com.moneelab.assignment.config.AppConfig.postService;
-import static com.moneelab.assignment.util.PathConstants.HOST;
-import static com.moneelab.assignment.util.PathConstants.P_POST;
+import static com.moneelab.assignment.util.PathConstants.*;
 import static javax.servlet.http.HttpServletResponse.*;
 
 public class PostControllerImpl implements PostController {
@@ -39,10 +38,17 @@ public class PostControllerImpl implements PostController {
      */
     @Override
     public ResponseEntity save(PostRequest postRequest, SessionUserService sessionService) {
-        UserResponse currentUser = sessionService.getUser();
+        ResponseEntity result = null;
+        try {
+            UserResponse currentUser = sessionService.getUser();
 
-        Long savedPostId = postService.save(postRequest, currentUser.getUserId());
-        return new ResponseEntity(SC_CREATED, HOST+P_POST+"?id="+savedPostId);
+            Long savedPostId = postService.save(postRequest, currentUser.getUserId());
+            result = new ResponseEntity(SC_CREATED, HOST+P_POST+"?id="+savedPostId);
+        } catch (NotExistException e) {
+            result = new ResponseEntity(SC_BAD_REQUEST, new ErrorResponse(e.getMessage()));
+        }
+
+        return result;
     }
 
     @Override

@@ -28,8 +28,12 @@ public class LikeControllerHandlerAdapter extends HandlerAdapter {
         Map<String, String> paramMap = createParamMap(request);
 
         ResponseEntity result;
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         switch (request.getMethod()) {
+            case HttpMethods.GET:
+                result = controller.findLike(paramMap);
+
+                break;
             case HttpMethods.POST:
                 result = controller.doLike(paramMap, new SessionUserService(session));
 
@@ -42,6 +46,6 @@ public class LikeControllerHandlerAdapter extends HandlerAdapter {
                 throw new IllegalArgumentException("존재하지 않는 경로입니다. uri=" + request.getRequestURI() + ", method=" + request.getMethod());
         }
 
-        setHttpResponse(response, result);
+        result.setHttpResponse(response);
     }
 }

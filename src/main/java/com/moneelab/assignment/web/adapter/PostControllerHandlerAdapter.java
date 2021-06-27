@@ -41,11 +41,11 @@ public class PostControllerHandlerAdapter extends HandlerAdapter {
                 break;
             case HttpMethods.PUT:
                 PostRequest postRequest = objectMapper.readValue(requestBody, PostRequest.class);
-                result = controller.update(paramMap, postRequest, new SessionUserService(request.getSession(false)));
+                result = controller.update(paramMap, postRequest, new SessionUserService(request.getSession()));
 
                 break;
             case HttpMethods.DELETE:
-                result = controller.delete(paramMap, new SessionUserService(request.getSession(false)));
+                result = controller.delete(paramMap, new SessionUserService(request.getSession()));
 
                 break;
             default:

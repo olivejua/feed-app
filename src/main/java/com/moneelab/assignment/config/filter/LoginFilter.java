@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        SessionUserService sessionService = new SessionUserService(httpRequest.getSession(false));
+        SessionUserService sessionService = new SessionUserService(httpRequest.getSession());
 
         if (!sessionService.existUserInSession()) {
             //
